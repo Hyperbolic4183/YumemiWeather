@@ -14,7 +14,6 @@ final class Fetcher: Fetchable {
     
     func fetch(completion: (() -> Void)?) {
         YumemiWeather.asyncFetchWeather("{\"area\": \"tokyo\", \"date\": \"2020-04-01T12:00:00+09:00\" }") { result in
-            print(result)
             switch result {
             case .success(let jsonString):
                 let weatherData = Data(jsonString.utf8)
