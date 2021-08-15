@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5BC7EC2D6D85BC880CD5268E /* Pods_Yumemi_ios_trainingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D796B27A94378319F8566146 /* Pods_Yumemi_ios_trainingTests.framework */; };
+		AD19EF8ABA1EC54DC32E3468 /* Pods_Yumemi_ios_training.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA3A3289CCDCFE57785D36C9 /* Pods_Yumemi_ios_training.framework */; };
 		D919B107263B9D320047898D /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D919B106263B9D320047898D /* WeatherView.swift */; };
 		D93DD7D5264B78A90068CA73 /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93DD7D4264B78A90068CA73 /* Fetcher.swift */; };
 		D943492B2672FFDE0023CFCA /* WeatherResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D943492A2672FFDE0023CFCA /* WeatherResponse.swift */; };
@@ -35,6 +37,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		537D50940135863ECE94355A /* Pods-Yumemi-ios-training.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yumemi-ios-training.debug.xcconfig"; path = "Target Support Files/Pods-Yumemi-ios-training/Pods-Yumemi-ios-training.debug.xcconfig"; sourceTree = "<group>"; };
+		8E1367BF7D0A5DF02DEFAAB6 /* Pods-Yumemi-ios-trainingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yumemi-ios-trainingTests.debug.xcconfig"; path = "Target Support Files/Pods-Yumemi-ios-trainingTests/Pods-Yumemi-ios-trainingTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BA3A3289CCDCFE57785D36C9 /* Pods_Yumemi_ios_training.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yumemi_ios_training.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6A6A5165ED0F50CF5DC7EC1 /* Pods-Yumemi-ios-training.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yumemi-ios-training.release.xcconfig"; path = "Target Support Files/Pods-Yumemi-ios-training/Pods-Yumemi-ios-training.release.xcconfig"; sourceTree = "<group>"; };
+		D796B27A94378319F8566146 /* Pods_Yumemi_ios_trainingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yumemi_ios_trainingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D919B106263B9D320047898D /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		D93DD7D4264B78A90068CA73 /* Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetcher.swift; sourceTree = "<group>"; };
 		D943492A2672FFDE0023CFCA /* WeatherResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherResponse.swift; sourceTree = "<group>"; };
@@ -53,6 +60,7 @@
 		D9B059A42660CB7700566FCA /* WeatherAppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppError.swift; sourceTree = "<group>"; };
 		D9B65FE1264E3208002E3578 /* WeatherViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewState.swift; sourceTree = "<group>"; };
 		D9D4D31B2656825300372FD2 /* WeatherInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInformation.swift; sourceTree = "<group>"; };
+		EDEC0D30C74D83E739DD0699 /* Pods-Yumemi-ios-trainingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yumemi-ios-trainingTests.release.xcconfig"; path = "Target Support Files/Pods-Yumemi-ios-trainingTests/Pods-Yumemi-ios-trainingTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BC7EC2D6D85BC880CD5268E /* Pods_Yumemi_ios_trainingTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,12 +77,34 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9BF7DD22644D75C00B62D63 /* YumemiWeather in Frameworks */,
+				AD19EF8ABA1EC54DC32E3468 /* Pods_Yumemi_ios_training.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36DAC0CF26A1E3E167575AB8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				537D50940135863ECE94355A /* Pods-Yumemi-ios-training.debug.xcconfig */,
+				D6A6A5165ED0F50CF5DC7EC1 /* Pods-Yumemi-ios-training.release.xcconfig */,
+				8E1367BF7D0A5DF02DEFAAB6 /* Pods-Yumemi-ios-trainingTests.debug.xcconfig */,
+				EDEC0D30C74D83E739DD0699 /* Pods-Yumemi-ios-trainingTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		879DF2537151A886774B4743 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BA3A3289CCDCFE57785D36C9 /* Pods_Yumemi_ios_training.framework */,
+				D796B27A94378319F8566146 /* Pods_Yumemi_ios_trainingTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D9844F1B267C603100D4630F /* Yumemi-ios-trainingTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +120,8 @@
 				D9982533263B730F00E373B8 /* Yumemi-ios-training */,
 				D9844F1B267C603100D4630F /* Yumemi-ios-trainingTests */,
 				D9982532263B730F00E373B8 /* Products */,
+				36DAC0CF26A1E3E167575AB8 /* Pods */,
+				879DF2537151A886774B4743 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -153,6 +186,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9844F23267C603100D4630F /* Build configuration list for PBXNativeTarget "Yumemi-ios-trainingTests" */;
 			buildPhases = (
+				77B400711CE927AA537E9210 /* [CP] Check Pods Manifest.lock */,
 				D9844F16267C603100D4630F /* Sources */,
 				D9844F17267C603100D4630F /* Frameworks */,
 				D9844F18267C603100D4630F /* Resources */,
@@ -171,9 +205,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9982545263B731000E373B8 /* Build configuration list for PBXNativeTarget "Yumemi-ios-training" */;
 			buildPhases = (
+				5DE0C9CF0C8A197BF539F68A /* [CP] Check Pods Manifest.lock */,
 				D998252D263B730F00E373B8 /* Sources */,
 				D998252E263B730F00E373B8 /* Frameworks */,
 				D998252F263B730F00E373B8 /* Resources */,
+				61EF4A39583633CFE7F32A9B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -215,7 +251,7 @@
 			);
 			mainGroup = D9982528263B730F00E373B8;
 			packageReferences = (
-				D9BF7DD02644D75C00B62D63 /* XCRemoteSwiftPackageReference "ios-training" */,
+				D9BF7DD02644D75C00B62D63 /* XCRemoteSwiftPackageReference "ios-training.git" */,
 			);
 			productRefGroup = D9982532263B730F00E373B8 /* Products */;
 			projectDirPath = "";
@@ -245,6 +281,70 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5DE0C9CF0C8A197BF539F68A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Yumemi-ios-training-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		61EF4A39583633CFE7F32A9B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Yumemi-ios-training/Pods-Yumemi-ios-training-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Yumemi-ios-training/Pods-Yumemi-ios-training-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yumemi-ios-training/Pods-Yumemi-ios-training-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		77B400711CE927AA537E9210 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Yumemi-ios-trainingTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D9844F16267C603100D4630F /* Sources */ = {
@@ -297,6 +397,7 @@
 /* Begin XCBuildConfiguration section */
 		D9844F21267C603100D4630F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E1367BF7D0A5DF02DEFAAB6 /* Pods-Yumemi-ios-trainingTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -317,6 +418,7 @@
 		};
 		D9844F22267C603100D4630F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EDEC0D30C74D83E739DD0699 /* Pods-Yumemi-ios-trainingTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -453,6 +555,7 @@
 		};
 		D9982546263B731000E373B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 537D50940135863ECE94355A /* Pods-Yumemi-ios-training.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -472,6 +575,7 @@
 		};
 		D9982547263B731000E373B8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D6A6A5165ED0F50CF5DC7EC1 /* Pods-Yumemi-ios-training.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -522,7 +626,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D9BF7DD02644D75C00B62D63 /* XCRemoteSwiftPackageReference "ios-training" */ = {
+		D9BF7DD02644D75C00B62D63 /* XCRemoteSwiftPackageReference "ios-training.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/yumemi-inc/ios-training.git";
 			requirement = {
@@ -535,7 +639,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		D9BF7DD12644D75C00B62D63 /* YumemiWeather */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D9BF7DD02644D75C00B62D63 /* XCRemoteSwiftPackageReference "ios-training" */;
+			package = D9BF7DD02644D75C00B62D63 /* XCRemoteSwiftPackageReference "ios-training.git" */;
 			productName = YumemiWeather;
 		};
 /* End XCSwiftPackageProductDependency section */
