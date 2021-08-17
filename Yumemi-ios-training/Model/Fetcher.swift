@@ -11,7 +11,6 @@ import Foundation
 final class Fetcher: Fetchable {
     
     weak var delegate: FetchableDelegate?
-    
     func fetch(completion: (() -> Void)?) {
         YumemiWeather.asyncFetchWeather("{\"area\": \"tokyo\", \"date\": \"2020-04-01T12:00:00+09:00\" }") { result in
             switch result {
