@@ -32,7 +32,7 @@ class WeatherViewController: UIViewController {
         weatherModel.delegate = self
     }
     
-    private func updateView(onSuccess information: WeatherInformation) {
+    func updateView(onSuccess information: WeatherInformation) {
         let weatherViewState = WeatherViewState(information: information)
         weatherView.changeDisplay(weatherViewState)
     }

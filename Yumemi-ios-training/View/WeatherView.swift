@@ -20,7 +20,7 @@ final class WeatherView: UIView {
     let minTemperatureLabel = UILabel()
     let maxTemperatureLabel = UILabel()
     private let closeButton = UIButton(type: .system)
-    private let reloadButton = UIButton(type: .system)
+    let reloadButton = UIButton(type: .system)
     private let indicator = UIActivityIndicatorView()
     private let loadingView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
     
