@@ -30,29 +30,32 @@ class TestWeatherModel: Fetchable {
 
 class Yumemi_ios_trainingTests: XCTestCase {
     func test_天気予報がsunnyだったときに画面に晴れ画像が表示される() {
+        let testView = TestWeatherView()
         let sunnyWeatherInformation = WeatherInformation(weather: .sunny, minTemperature: "0", maxTemperature: "0")
-        let viewController = WeatherViewController(model: TestWeatherModel(weatherInformation: sunnyWeatherInformation))
-        let weatherImageView = viewController.weatherView.weatherImageView
+        let model = TestWeatherModel(weatherInformation: sunnyWeatherInformation)
+        let viewController = WeatherViewController(model: model, view: testView)
+        let weatherImageView = testView.testWeatherImageView
         let expectation: XCTestExpectation? = self.expectation(description: "fetch")
         
         viewController.viewDidLoad()
-        viewController.weatherModel.fetch() {
+        model.fetch() {
             DispatchQueue.main.async {
                 XCTAssertEqual(weatherImageView.image, UIImage(named: "sunny"))
                 expectation?.fulfill()
             }
-            
         }
         waitForExpectations(timeout: 3, handler: nil)
     }
     func test_天気予報がcloudyだったときに画面に曇り画像が表示される() {
+        let testView = TestWeatherView()
         let cloudyWeatherInformation = WeatherInformation(weather: .cloudy, minTemperature: "0", maxTemperature: "0")
-        let viewController = WeatherViewController(model: TestWeatherModel(weatherInformation: cloudyWeatherInformation))
-        let weatherImageView = viewController.weatherView.weatherImageView
+        let model = TestWeatherModel(weatherInformation: cloudyWeatherInformation)
+        let viewController = WeatherViewController(model: model, view: testView)
+        let weatherImageView = testView.testWeatherImageView
         let expectation: XCTestExpectation? = self.expectation(description: "fetch")
         
         viewController.viewDidLoad()
-        viewController.weatherModel.fetch() {
+        model.fetch() {
             DispatchQueue.main.async {
                 XCTAssertEqual(weatherImageView.image, UIImage(named: "cloudy"))
                 expectation?.fulfill()
@@ -61,13 +64,15 @@ class Yumemi_ios_trainingTests: XCTestCase {
         waitForExpectations(timeout: 3, handler: nil)
     }
     func test_天気予報がrainyだったときに画面に雨画像が表示される() {
+        let testView = TestWeatherView()
         let rainyWeatherInformation = WeatherInformation(weather: .rainy, minTemperature: "0", maxTemperature: "0")
-        let viewController = WeatherViewController(model: TestWeatherModel(weatherInformation: rainyWeatherInformation))
-        let weatherImageView = viewController.weatherView.weatherImageView
+        let model = TestWeatherModel(weatherInformation: rainyWeatherInformation)
+        let viewController = WeatherViewController(model: model, view: testView)
+        let weatherImageView = testView.testWeatherImageView
         let expectation: XCTestExpectation? = self.expectation(description: "fetch")
         
         viewController.viewDidLoad()
-        viewController.weatherModel.fetch() {
+        model.fetch() {
             DispatchQueue.main.async {
                 XCTAssertEqual(weatherImageView.image, UIImage(named: "rainy"))
                 expectation?.fulfill()
@@ -76,35 +81,36 @@ class Yumemi_ios_trainingTests: XCTestCase {
         waitForExpectations(timeout: 3, handler: nil)
     }
     func test_最高気温がUILabelに反映される() {
-        let testingMaxTemperature = "40"
-        let maxTemperatureWeatherInformation = WeatherInformation(weather: .sunny, minTemperature: "0", maxTemperature: testingMaxTemperature)
+        let testMaxTemperature = "40"
+        let testView = TestWeatherView()
+        let maxTemperatureWeatherInformation = WeatherInformation(weather: .sunny, minTemperature: "0", maxTemperature: testMaxTemperature)
         let maxTemperatureModel = TestWeatherModel(weatherInformation: maxTemperatureWeatherInformation)
-        let viewController = WeatherViewController(model: maxTemperatureModel)
-        let view = viewController.weatherView
-        let maxTemperature = view.maxTemperatureLabel
+        let viewController = WeatherViewController(model: maxTemperatureModel, view: testView)
+        let maxTemperature = testView.testMaxTemperatureLabel
         let expectation: XCTestExpectation? = self.expectation(description: "fetch")
-        
+
         viewController.viewDidLoad()
-        viewController.weatherModel.fetch() {
+        maxTemperatureModel.fetch() {
             DispatchQueue.main.async {
-                XCTAssertEqual(maxTemperature.text, testingMaxTemperature)
+                XCTAssertEqual(maxTemperature.text, testMaxTemperature)
                 expectation?.fulfill()
             }
         }
         waitForExpectations(timeout: 3, handler: nil)
     }
     func test_最低気温がUILabelに反映される() {
-        let testingMinTemperature = "-40"
-        let minTemperatureWeatherInformation = WeatherInformation(weather: .sunny, minTemperature: testingMinTemperature, maxTemperature: "0")
+        let testMinTemperature = "40"
+        let testView = TestWeatherView()
+        let minTemperatureWeatherInformation = WeatherInformation(weather: .sunny, minTemperature: testMinTemperature, maxTemperature: "0")
         let minTemperatureModel = TestWeatherModel(weatherInformation: minTemperatureWeatherInformation)
-        let viewController = WeatherViewController(model: minTemperatureModel)
-        let view = viewController.weatherView
+        let viewController = WeatherViewController(model: minTemperatureModel, view: testView)
+        let minTemperature = testView.testMinTemperatureLabel
         let expectation: XCTestExpectation? = self.expectation(description: "fetch")
 
         viewController.viewDidLoad()
-        viewController.weatherModel.fetch() {
+        minTemperatureModel.fetch() {
             DispatchQueue.main.async {
-                XCTAssertEqual(testingMinTemperature,view.minTemperatureLabel.text)
+                XCTAssertEqual(minTemperature.text, testMinTemperature)
                 expectation?.fulfill()
             }
         }
