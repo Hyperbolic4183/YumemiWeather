@@ -12,15 +12,15 @@ protocol WeatherViewDelegate: AnyObject {
     func didTapCloseButton(_ view: WeatherView)
 }
 
-final class WeatherView: UIView {
+ class WeatherView: UIView {
     weak var delegate: WeatherViewDelegate?
     private let stackViewForImageViewAndLabels = UIStackView()
-    let weatherImageView = UIImageView()
+    fileprivate let weatherImageView = UIImageView()
     private let stackViewForLabels = UIStackView()
-    let minTemperatureLabel = UILabel()
-    let maxTemperatureLabel = UILabel()
+    fileprivate let minTemperatureLabel = UILabel()
+    fileprivate let maxTemperatureLabel = UILabel()
     private let closeButton = UIButton(type: .system)
-    let reloadButton = UIButton(type: .system)
+    private let reloadButton = UIButton(type: .system)
     private let indicator = UIActivityIndicatorView()
     private let loadingView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
     
