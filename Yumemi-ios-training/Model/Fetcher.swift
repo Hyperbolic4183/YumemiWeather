@@ -12,30 +12,30 @@ final class Fetcher: Fetchable {
     
     weak var delegate: FetchableDelegate?
     func fetch(completion: (() -> Void)?) {
-        YumemiWeather.asyncFetchWeather("{\"area\": \"tokyo\", \"date\": \"2020-04-01T12:00:00+09:00\" }") { result in
+        YumemiWeather.asyncFetchWeather("{\"area\": \"tokyo\", \"date\": \"2020-04-01T12:00:00+09:00\" }") { [weak self] result in
             switch result {
             case .success(let jsonString):
                 let weatherData = Data(jsonString.utf8)
-                guard let weatherResponse = self.convert(from: weatherData) else {
+                guard let weatherResponse = self?.convert(from: weatherData) else {
                     assertionFailure("convertに失敗")
                     self?.delegate?.fetch(self, didFailWithError: .unknownError)
                     return
                 }
                 guard let weather = WeatherInformation.Weather(rawValue: weatherResponse.weather) else {
                     assertionFailure("Weatherのイニシャライザに失敗")
-                    self.delegate?.fetch(self, didFailWithError: .unknownError)
+                    self?.delegate?.fetch(self, didFailWithError: .unknownError)
                     return
                 }
                 let minTemperature = String(weatherResponse.minTemp)
                 let maxTemperature = String(weatherResponse.maxTemp)
                 let weatherInformation = WeatherInformation(weather: weather, minTemperature: minTemperature, maxTemperature: maxTemperature)
-                self.delegate?.fetch(self, didFetch: weatherInformation)
+                self?.delegate?.fetch(self, didFetch: weatherInformation)
             case .failure(let error):
                 switch error {
                 case .invalidParameterError:
-                    self.delegate?.fetch(self, didFailWithError: .invalidParameterError)
+                    self?.delegate?.fetch(self, didFailWithError: .invalidParameterError)
                 case .unknownError:
-                    self.delegate?.fetch(self, didFailWithError: .unknownError)
+                    self?.delegate?.fetch(self, didFailWithError: .unknownError)
                 }
             }
         }
