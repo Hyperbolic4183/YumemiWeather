@@ -8,11 +8,10 @@
 import UIKit
 
 class WeatherViewController: UIViewController {
-    private let weatherView: WeatherView
+    private let weatherView = WeatherView()
     private var weatherModel: Fetchable
-    init(model: Fetchable, view: WeatherView) {
+    init(model: Fetchable) {
         self.weatherModel = model
-        self.weatherView = view
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: UIApplication.didBecomeActiveNotification, object: nil)
     }

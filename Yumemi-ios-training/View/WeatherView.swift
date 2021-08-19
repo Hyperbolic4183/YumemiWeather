@@ -160,9 +160,3 @@ protocol WeatherViewDelegate: AnyObject {
         delegate?.didTapCloseButton(self)
     }
 }
-
-final class TestWeatherView: WeatherView {
-    lazy var testWeatherImageView = weatherImageView
-    lazy var testMinTemperatureLabel = minTemperatureLabel
-    lazy var testMaxTemperatureLabel = maxTemperatureLabel
-}
