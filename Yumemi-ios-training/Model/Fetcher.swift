@@ -19,6 +19,7 @@ final class Fetcher: Fetchable {
                 let weatherData = Data(jsonString.utf8)
                 guard let weatherResponse = self.convert(from: weatherData) else {
                     assertionFailure("convertに失敗")
+                    self?.delegate?.fetch(self, didFailWithError: .unknownError)
                     return
                 }
                 guard let weather = WeatherInformation.Weather(rawValue: weatherResponse.weather) else {
