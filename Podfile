@@ -6,7 +6,6 @@ target 'Yumemi-ios-training' do
   use_frameworks!
 
   # Pods for Yumemi-ios-training
-  pod 'Runtime'
 
   target 'Yumemi-ios-trainingTests' do
     inherit! :search_paths
