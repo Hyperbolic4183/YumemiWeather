@@ -13,6 +13,7 @@ final class Fetcher: Fetchable {
     weak var delegate: FetchableDelegate?
     func fetch(completion: (() -> Void)?) {
         YumemiWeather.asyncFetchWeather("{\"area\": \"tokyo\", \"date\": \"2020-04-01T12:00:00+09:00\" }") { result in
+        YumemiWeather.asyncFetchWeather("{\"area\": \"tokyo\", \"date\": \"2020-04-01T12:00:00+09:00\" }") { [weak self] result in
             switch result {
             case .success(let jsonString):
                 let weatherData = Data(jsonString.utf8)
