@@ -36,12 +36,31 @@ class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         weatherView.delegate = self
-        weatherModel.delegate = self
     }
     
+    private func updateView(_ result: Result<WeatherInformation, WeatherAppError>) {
+        switch result {
+        case .success(let information):
+            let weatherViewState = WeatherViewState(information: information)
+            weatherView.changeView(for: weatherViewState)
+        case .failure(let error):
+            var message = ""
+            switch error {
+            case .invalidParameterError:
+                message = "不適切な値が設定されました"
+            case .unknownError:
+                message = "予期せぬエラーが発生しました"
+            }
+            errorHandler.handle(self,error)
+        }
+    }
+
     @objc func reload() {
         weatherView.switchView()
-        weatherModel.fetch()
+        weatherModel.fetch { [weak self] result in
+            self?.updateView(result)
+            self?.weatherView.switchView()
+        }
     }
 }
 
