@@ -17,6 +17,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let weatherImage = getImage(from: view)
         XCTAssertEqual(weatherImage, UIImage(named: "sunny"))
     }
+    
     func test_天気予報がcloudyだったときに画面に曇り画像が表示される() {
         let cloudyWeatherInformation = WeatherInformation(weather: .cloudy, minTemperature: "0", maxTemperature: "0")
         let view = WeatherView()
@@ -24,6 +25,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let weatherImage = getImage(from: view)
         XCTAssertEqual(weatherImage, UIImage(named: "cloudy"))
     }
+    
     func test_天気予報がrainyだったときに画面に雨画像が表示される() {
         let rainyWeatherInformation = WeatherInformation(weather: .rainy, minTemperature: "0", maxTemperature: "0")
         let view = WeatherView()
@@ -31,6 +33,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let weatherImage = getImage(from: view)
         XCTAssertEqual(weatherImage, UIImage(named: "rainy"))
     }
+    
     func test_最高気温がUILabelに反映される() {
         let testMaxTemperature = "40"
         let view = WeatherView()
@@ -69,6 +72,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let maxTemperatureLabel = stackViewForLabels.subviews[1] as! UILabel
         return maxTemperatureLabel
     }
+    
     private func getMinTemperatureLabel(from view: WeatherView) -> UILabel {
         //WeatherView含まれるstackViewForImageViewAndLabelsを取得
         let stackViewForImageViewAndLabels = getStackView(from: view)
@@ -78,4 +82,5 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let minTemperatureLabel = stackViewForLabels.subviews[0] as! UILabel
         return minTemperatureLabel
     }
+    
 }
