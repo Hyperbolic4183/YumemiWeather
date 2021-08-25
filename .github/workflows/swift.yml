@@ -15,5 +15,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: test
-      run: xcodebuild test -project YumemiWeather.xcodeproj/ -scheme YumemiWeather -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8"
+      run: xcodebuild test -project Yumemi-ios-training.xcodeproj/ -scheme Yumemi-ios-training -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 8"
 
