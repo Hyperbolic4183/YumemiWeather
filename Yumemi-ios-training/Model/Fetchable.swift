@@ -12,6 +12,5 @@ protocol FetchableDelegate: AnyObject {
 }
 
 protocol Fetchable {
-    var delegate: FetchableDelegate? { get set }
-    func fetch()
+    func fetch(completion: @escaping (_ result: Result<WeatherInformation, WeatherAppError>) -> Void)
 }
