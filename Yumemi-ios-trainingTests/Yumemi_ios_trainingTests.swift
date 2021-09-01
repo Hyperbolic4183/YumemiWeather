@@ -83,4 +83,38 @@ class Yumemi_ios_trainingTests: XCTestCase {
         return minTemperatureLabel
     }
     
+class FetcherMock: Fetchable {
+    
+    var delegate: FetchableDelegate?
+    
+    let weather: WeatherInformation.Weather
+    let minTemperature: String
+    let maxTemperature: String
+    let weatherInformation: WeatherInformation
+    
+    init(weather: WeatherInformation.Weather) {
+        self.weather = weather
+        self.minTemperature = "0"
+        self.maxTemperature = "0"
+        self.weatherInformation = WeatherInformation(weather: weather, minTemperature: minTemperature, maxTemperature: maxTemperature)
+    }
+    
+    init(minTemperature: String) {
+        self.weather = .sunny
+        self.minTemperature = minTemperature
+        self.maxTemperature = "0"
+        self.weatherInformation = WeatherInformation(weather: weather, minTemperature: minTemperature, maxTemperature: maxTemperature)
+    }
+    
+    init(maxTemperature: String) {
+        self.weather = .sunny
+        self.minTemperature = "0"
+        self.maxTemperature = "0"
+        self.weatherInformation = WeatherInformation(weather: weather, minTemperature: minTemperature, maxTemperature: maxTemperature)
+    }
+    
+    func fetch() {
+        delegate?.fetch(self, didFetch: weatherInformation)
+    }
+    
 }
