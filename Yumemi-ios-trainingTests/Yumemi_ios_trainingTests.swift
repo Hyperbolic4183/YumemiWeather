@@ -56,14 +56,15 @@ class Yumemi_ios_trainingTests: XCTestCase {
         view.subviews.first(where: { $0 is UIStackView})! as! UIStackView
     }
     
-    private func getImage(from view: WeatherView) -> UIImage? {
+    private func getImage(from view: UIView) -> UIImage {
         //WeatherView含まれるstackViewForImageViewAndLabelsを取得
         let stackViewForImageViewAndLabels = getStackView(from: view)
+        
         let weatherImageView = stackViewForImageViewAndLabels.subviews.first(where: { $0 is UIImageView })! as! UIImageView
-        return weatherImageView.image
+        return weatherImageView.image!
     }
     
-    private func getMaxTemperatureLabel(from view: WeatherView) -> UILabel {
+    private func getMaxTemperatureLabel(from view: UIView) -> UILabel {
         //WeatherView含まれる2つのUIStackViewのうち、2番目に追加したstackViewForLabelsを取得
         let stackViewForImageViewAndLabels = getStackView(from: view)
         //stackViewForImageViewAndLabelsに含まれるstackViewForLabelsを取得
@@ -73,7 +74,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
         return maxTemperatureLabel
     }
     
-    private func getMinTemperatureLabel(from view: WeatherView) -> UILabel {
+    private func getMinTemperatureLabel(from view: UIView) -> UILabel {
         //WeatherView含まれるstackViewForImageViewAndLabelsを取得
         let stackViewForImageViewAndLabels = getStackView(from: view)
         //stackViewForImageViewAndLabelsに含まれるstackViewForLabelsを取得
@@ -83,6 +84,11 @@ class Yumemi_ios_trainingTests: XCTestCase {
         return minTemperatureLabel
     }
     
+    private func getReloadButton(from view: UIView) -> UIButton {
+        view.subviews.filter({ type(of: $0) == UIButton.self }).map({ $0 as! UIButton })[1]
+    }
+}
+
 class FetcherMock: Fetchable {
     
     var delegate: FetchableDelegate?
