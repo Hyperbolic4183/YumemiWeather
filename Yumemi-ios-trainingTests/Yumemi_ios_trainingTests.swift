@@ -25,8 +25,8 @@ class Yumemi_ios_trainingTests: XCTestCase {
         
         weatherViewController.viewDidLoad()
         addProcessing(target: reloadButton.sendActions(for: .touchUpInside)) {
-            DispatchQueue.main.async {
-                let weatherImage = self.getImage(from: weatherView)
+            DispatchQueue.main.async { [weak self] in
+                let weatherImage = self?.getImage(from: weatherView)
                 XCTAssertEqual(weatherImage,UIImage(named: "sunny"))
                 expectation?.fulfill()
             }
