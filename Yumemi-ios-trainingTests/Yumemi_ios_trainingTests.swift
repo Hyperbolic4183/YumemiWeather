@@ -11,27 +11,16 @@ import XCTest
 class Yumemi_ios_trainingTests: XCTestCase {
     
     var fetcherMock: FetcherMock!
-    var weatherViewController: WeatherViewController!
-    let permissibleTime: TimeInterval = 4
+    var weatherViewControllerMock: WeatherViewControllerMock!
     
     func test_天気予報がsunnyだったときに画面に晴れ画像が表示される() {
         
         fetcherMock = FetcherMock(weather: .sunny)
-        weatherViewController = WeatherViewController(model: fetcherMock)
-
-        let weatherView = weatherViewController.weatherView
-        let reloadButton = getReloadButton(from: weatherView)
-        let expectation: XCTestExpectation? = self.expectation(description: "fetch")
+        weatherViewControllerMock = WeatherViewControllerMock(model: fetcherMock)
+        weatherViewControllerMock.model.fetch()
         
-        weatherViewController.viewDidLoad()
-        addProcessing(target: reloadButton.sendActions(for: .touchUpInside)) {
-            DispatchQueue.main.async { [weak self] in
-                let weatherImage = self?.getImage(from: weatherView)
-                XCTAssertEqual(weatherImage,UIImage(named: "sunny"))
-                expectation?.fulfill()
-            }
-        }
-        waitForExpectations(timeout: permissibleTime, handler: nil)
+        let weatherImageView = getImage(from: weatherViewControllerMock.view)
+        XCTAssertEqual(weatherImageView, UIImage(named: "sunny"))
     }
     
     func test_天気予報がcloudyだったときに画面に曇り画像が表示される() {
