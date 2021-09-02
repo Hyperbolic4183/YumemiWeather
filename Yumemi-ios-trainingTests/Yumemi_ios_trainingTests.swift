@@ -157,6 +157,25 @@ class Yumemi_ios_trainingTests: XCTestCase {
     }
 }
 
+class WeatherViewControllerMock: FetchableDelegate {
+    
+    private(set) var model: Fetchable
+    private(set) var view = WeatherView()
+    
+    init(model: Fetchable) {
+        self.model = model
+        self.model.delegate = self
+    }
+    
+    func fetch(_ fetchable: Fetchable?, didFetch information: WeatherInformation) {
+        view.changeDisplay(WeatherViewState(information: information))
+    }
+    
+    func fetch(_ fetchable: Fetchable?, didFailWithError error: WeatherAppError) {
+        
+    }
+}
+
 class FetcherMock: Fetchable {
     
     var delegate: FetchableDelegate?
