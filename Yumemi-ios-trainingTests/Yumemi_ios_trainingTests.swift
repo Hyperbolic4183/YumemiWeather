@@ -24,89 +24,44 @@ class Yumemi_ios_trainingTests: XCTestCase {
     }
     
     func test_天気予報がcloudyだったときに画面に曇り画像が表示される() {
-        
+
         fetcherMock = FetcherMock(weather: .cloudy)
-        weatherViewController = WeatherViewController(model: fetcherMock)
+        weatherViewControllerMock = WeatherViewControllerMock(model: fetcherMock)
+        weatherViewControllerMock.model.fetch()
         
-        let weatherView = weatherViewController.weatherView
-        let reloadButton = getReloadButton(from: weatherView)
-        let expectation: XCTestExpectation? = self.expectation(description: "fetch")
-        
-        weatherViewController.viewDidLoad()
-        addProcessing(target: reloadButton.sendActions(for: .touchUpInside)) {
-            DispatchQueue.main.async {
-                let weatherImage = self.getImage(from: weatherView)
-                XCTAssertEqual(weatherImage, UIImage(named: "cloudy"))
-                expectation?.fulfill()
-            }
-        }
-        waitForExpectations(timeout: permissibleTime, handler: nil)
+        let weatherImageView = getImage(from: weatherViewControllerMock.view)
+        XCTAssertEqual(weatherImageView, UIImage(named: "cloudy"))
     }
-    
+
     func test_天気予報がrainyだったときに画面に雨画像が表示される() {
         fetcherMock = FetcherMock(weather: .rainy)
-        weatherViewController = WeatherViewController(model: fetcherMock)
+        weatherViewControllerMock = WeatherViewControllerMock(model: fetcherMock)
+        weatherViewControllerMock.model.fetch()
         
-        let weatherView = weatherViewController.weatherView
-        let reloadButton = getReloadButton(from: weatherView)
-        let expectation: XCTestExpectation? = self.expectation(description: "fetch")
-        
-        weatherViewController.viewDidLoad()
-        addProcessing(target: reloadButton.sendActions(for: .touchUpInside)) {
-            DispatchQueue.main.async {
-                let weatherImage = self.getImage(from: weatherView)
-                XCTAssertEqual(weatherImage, UIImage(named: "rainy"))
-                expectation?.fulfill()
-            }
-        }
-        waitForExpectations(timeout: permissibleTime, handler: nil)
+        let weatherImageView = getImage(from: weatherViewControllerMock.view)
+        XCTAssertEqual(weatherImageView, UIImage(named: "rainy"))
     }
-    
+
     func test_最高気温がUILabelに反映される() {
         let testMaxTemperature = "40"
         fetcherMock = FetcherMock(maxTemperature: testMaxTemperature)
-        weatherViewController = WeatherViewController(model: fetcherMock)
+        weatherViewControllerMock = WeatherViewControllerMock(model: fetcherMock)
+        weatherViewControllerMock.model.fetch()
         
-        let weatherView = weatherViewController.weatherView
-        let reloadButton = getReloadButton(from: weatherView)
-        let expectation: XCTestExpectation? = self.expectation(description: "fetch")
-        
-        weatherViewController.viewDidLoad()
-        addProcessing(target: reloadButton.sendActions(for: .touchUpInside)) {
-            DispatchQueue.main.async {
-                let maxTemperature = self.getMaxTemperatureLabel(from: weatherView)
-                XCTAssertEqual(testMaxTemperature, maxTemperature.text)
-                expectation?.fulfill()
-            }
-        }
-        waitForExpectations(timeout: permissibleTime, handler: nil)
+        let maxTemperature = self.getMaxTemperatureLabel(from: weatherViewControllerMock.view)
+       
+        XCTAssertEqual(testMaxTemperature, maxTemperature.text)
     }
-    
+
     func test_最低気温がUILabelに反映される() {
         let testMinTemperature = "-40"
         fetcherMock = FetcherMock(maxTemperature: testMinTemperature)
-        weatherViewController = WeatherViewController(model: fetcherMock)
+        weatherViewControllerMock = WeatherViewControllerMock(model: fetcherMock)
+        weatherViewControllerMock.model.fetch()
         
-        let weatherView = weatherViewController.weatherView
-        let reloadButton = getReloadButton(from: weatherView)
-        let expectation: XCTestExpectation? = self.expectation(description: "fetch")
-        
-        weatherViewController.viewDidLoad()
-        addProcessing(target: reloadButton.sendActions(for: .touchUpInside)) {
-            DispatchQueue.main.async {
-                let minTemperature = self.getMaxTemperatureLabel(from: weatherView)
-                XCTAssertEqual(testMinTemperature, minTemperature.text)
-                expectation?.fulfill()
-            }
-        }
-        waitForExpectations(timeout: permissibleTime, handler: nil)
-    }
-    
-    func addProcessing(target: Void,completion: @escaping () -> Void) {
-        DispatchQueue.main.async {
-            target
-            completion()
-        }
+        let minTemperature = self.getMaxTemperatureLabel(from: weatherViewControllerMock.view)
+       
+        XCTAssertEqual(testMinTemperature, minTemperature.text)
     }
     
     private func getStackView(from view: UIView) -> UIStackView {
