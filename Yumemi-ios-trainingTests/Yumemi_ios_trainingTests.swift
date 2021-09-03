@@ -99,9 +99,9 @@ class Yumemi_ios_trainingTests: XCTestCase {
     private func getReloadButton(from view: UIView) -> UIButton {
         view.subviews.filter({ type(of: $0) == UIButton.self }).map({ $0 as! UIButton })[1]
     }
-}
-
     
 }
 
+extension XCTestExpectation {
+    static let expectationOfError = XCTestExpectation(description: "error")
 }
