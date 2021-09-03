@@ -9,7 +9,7 @@ import UIKit
 
 class WeatherViewController: UIViewController {
     private let weatherView = WeatherView()
-    private(set) var weatherModel: Fetchable
+    private var weatherModel: Fetchable
     init(model: Fetchable) {
         self.weatherModel = model
         super.init(nibName: nil, bundle: nil)
