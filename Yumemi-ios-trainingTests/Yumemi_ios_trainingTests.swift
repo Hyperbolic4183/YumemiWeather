@@ -57,6 +57,13 @@ class Yumemi_ios_trainingTests: XCTestCase {
         XCTAssertEqual(testMinTemperature, minTemperature.text)
     }
     
+    func test_Fetcherでエラーが起きた時にWeatherViewControllerのdelegateが動く() {
+        failedFetcherMock = FailedFetcherMock(error: .invalidParameterError)
+        failedFetcherMock.delegate = weatherViewControllerMock
+        failedFetcherMock.fetch()
+        wait(for: [.expectationOfError], timeout: 2)
+    }
+    
     private func getStackView(from view: UIView) -> UIStackView {
         view.subviews.first(where: { $0 is UIStackView})! as! UIStackView
     }
