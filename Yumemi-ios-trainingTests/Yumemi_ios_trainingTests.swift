@@ -101,57 +101,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
     }
 }
 
-class WeatherViewControllerMock: FetchableDelegate {
     
-    private(set) var model: Fetchable
-    private(set) var view = WeatherView()
-    
-    init(model: Fetchable) {
-        self.model = model
-        self.model.delegate = self
-    }
-    
-    func fetch(_ fetchable: Fetchable?, didFetch information: WeatherInformation) {
-        view.changeDisplay(WeatherViewState(information: information))
-    }
-    
-    func fetch(_ fetchable: Fetchable?, didFailWithError error: WeatherAppError) {
-        
-    }
 }
 
-class FetcherMock: Fetchable {
-    
-    var delegate: FetchableDelegate?
-    
-    let weather: WeatherInformation.Weather
-    let minTemperature: String
-    let maxTemperature: String
-    let weatherInformation: WeatherInformation
-    
-    init(weather: WeatherInformation.Weather) {
-        self.weather = weather
-        self.minTemperature = "0"
-        self.maxTemperature = "0"
-        self.weatherInformation = WeatherInformation(weather: weather, minTemperature: minTemperature, maxTemperature: maxTemperature)
-    }
-    
-    init(minTemperature: String) {
-        self.weather = .sunny
-        self.minTemperature = minTemperature
-        self.maxTemperature = "0"
-        self.weatherInformation = WeatherInformation(weather: weather, minTemperature: minTemperature, maxTemperature: maxTemperature)
-    }
-    
-    init(maxTemperature: String) {
-        self.weather = .sunny
-        self.minTemperature = "0"
-        self.maxTemperature = "0"
-        self.weatherInformation = WeatherInformation(weather: weather, minTemperature: minTemperature, maxTemperature: maxTemperature)
-    }
-    
-    func fetch() {
-        delegate?.fetch(self, didFetch: weatherInformation)
-    }
-    
 }

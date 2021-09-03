@@ -21,6 +21,9 @@
 		D9B059A52660CB7700566FCA /* WeatherAppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B059A42660CB7700566FCA /* WeatherAppError.swift */; };
 		D9B65FE2264E3208002E3578 /* WeatherViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B65FE1264E3208002E3578 /* WeatherViewState.swift */; };
 		D9BF7DD22644D75C00B62D63 /* YumemiWeather in Frameworks */ = {isa = PBXBuildFile; productRef = D9BF7DD12644D75C00B62D63 /* YumemiWeather */; };
+		D9C9E56026E19ABF000276C7 /* WeatherViewControllerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C9E55F26E19ABF000276C7 /* WeatherViewControllerMock.swift */; };
+		D9C9E56626E19C32000276C7 /* SuccessFetcherMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C9E56526E19C32000276C7 /* SuccessFetcherMock.swift */; };
+		D9C9E56A26E19C4D000276C7 /* FailedFetcherMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C9E56926E19C4D000276C7 /* FailedFetcherMock.swift */; };
 		D9D4D31C2656825300372FD2 /* WeatherInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D4D31B2656825300372FD2 /* WeatherInformation.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +55,9 @@
 		D9982542263B731000E373B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9B059A42660CB7700566FCA /* WeatherAppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppError.swift; sourceTree = "<group>"; };
 		D9B65FE1264E3208002E3578 /* WeatherViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewState.swift; sourceTree = "<group>"; };
+		D9C9E55F26E19ABF000276C7 /* WeatherViewControllerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerMock.swift; sourceTree = "<group>"; };
+		D9C9E56526E19C32000276C7 /* SuccessFetcherMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessFetcherMock.swift; sourceTree = "<group>"; };
+		D9C9E56926E19C4D000276C7 /* FailedFetcherMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailedFetcherMock.swift; sourceTree = "<group>"; };
 		D9D4D31B2656825300372FD2 /* WeatherInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInformation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,6 +84,9 @@
 			isa = PBXGroup;
 			children = (
 				D9844F1C267C603100D4630F /* Yumemi_ios_trainingTests.swift */,
+				D9C9E55F26E19ABF000276C7 /* WeatherViewControllerMock.swift */,
+				D9C9E56926E19C4D000276C7 /* FailedFetcherMock.swift */,
+				D9C9E56526E19C32000276C7 /* SuccessFetcherMock.swift */,
 				D9844F1E267C603100D4630F /* Info.plist */,
 			);
 			path = "Yumemi-ios-trainingTests";
@@ -251,7 +260,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9C9E56626E19C32000276C7 /* SuccessFetcherMock.swift in Sources */,
 				D9844F1D267C603100D4630F /* Yumemi_ios_trainingTests.swift in Sources */,
+				D9C9E56A26E19C4D000276C7 /* FailedFetcherMock.swift in Sources */,
+				D9C9E56026E19ABF000276C7 /* WeatherViewControllerMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
