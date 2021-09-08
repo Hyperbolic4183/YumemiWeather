@@ -60,7 +60,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
 
         XCTAssertEqual(testMinTemperature, minTemperature.text)
     }
-    func test_天気予報でエラーだった時にFetchableDelegateメソッドが実行される() {
+    func test_天気予報がエラーだった時にWeatherViewControllerProtocolのデリゲートメソッドが実行される() {
         let expectation = XCTestExpectation(description: "error")
         fetcherMock = FetcherMock(error: .invalidParameterError)
         let weatherViewControllerMock = WeatherViewControllerMock(view: WeatherView(), model: fetcherMock, expectation: expectation)
