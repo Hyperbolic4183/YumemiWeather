@@ -6,19 +6,43 @@
 //
 
 import XCTest
-import Foundation
 @testable import Yumemi_ios_training
 
-class WeatherViewControllerMock: FetchableDelegate {
+class WeatherViewControllerMock: WeatherViewControllerProtocol {
+    //MARK:- WeatherViewControllerProtocol
+    var weatherView: WeatherViewProtocol
+    var weatherModel: Fetchable
     
-    var model: Fetchable?
-    private(set) var view = WeatherView()
+    func handle(_ error: WeatherAppError) {
+        expectation?.fulfill()
+    }
     
+    var expectation: XCTestExpectation?
+    
+    init(view: WeatherViewProtocol, model: Fetchable) {
+        self.weatherView = view
+        self.weatherModel = model
+    }
+    
+    init(view: WeatherViewProtocol, model: Fetchable, expectation: XCTestExpectation) {
+        self.weatherView = view
+        self.weatherModel = model
+        self.expectation = expectation
+    }
+    
+    //MARK:- WeatherViewDelegate
+    func didTapReloadButton(_ view: WeatherView) {}
+    
+    func didTapCloseButton(_ view: WeatherView) {}
+    
+    //MARK:- FetchableDelegate
     func fetch(_ fetchable: Fetchable?, didFetch information: WeatherInformation) {
-        view.changeDisplay(WeatherViewState(information: information))
+        weatherView.weatherViewState = WeatherViewState(information: information)
     }
     
     func fetch(_ fetchable: Fetchable?, didFailWithError error: WeatherAppError) {
-        XCTestExpectation.expectationOfError.fulfill()
+        handle(error)
     }
+    
+    
 }
