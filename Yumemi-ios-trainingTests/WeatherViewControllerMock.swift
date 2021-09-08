@@ -29,13 +29,10 @@ class WeatherViewControllerMock: WeatherViewControllerProtocol {
         self.weatherModel = model
         self.expectation = expectation
     }
-    
-    //MARK:- WeatherViewDelegate
-    func didTapReloadButton(_ view: WeatherView) {}
-    
-    func didTapCloseButton(_ view: WeatherView) {}
-    
-    //MARK:- FetchableDelegate
+}
+
+//MARK:- FetchableDelegate
+extension WeatherViewControllerMock: FetchableDelegate {
     func fetch(_ fetchable: Fetchable?, didFetch information: WeatherInformation) {
         weatherView.weatherViewState = WeatherViewState(information: information)
     }
@@ -43,6 +40,4 @@ class WeatherViewControllerMock: WeatherViewControllerProtocol {
     func fetch(_ fetchable: Fetchable?, didFailWithError error: WeatherAppError) {
         handle(error)
     }
-    
-    
 }
