@@ -7,10 +7,32 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController {
-    private let weatherView = WeatherView()
-    private var weatherModel: Fetchable
-    init(model: Fetchable) {
+protocol WeatherViewControllerProtocol: WeatherViewDelegate, FetchableDelegate {
+    var weatherView: WeatherViewProtocol { get }
+    var weatherModel: Fetchable { get }
+    func handle(_ error: WeatherAppError)
+}
+
+class WeatherViewController: UIViewController, WeatherViewControllerProtocol {
+    
+    // MARK:- WeatherViewControllerProtocol
+    
+    var weatherView: WeatherViewProtocol
+    var weatherModel: Fetchable
+    
+    func handle(_ error: WeatherAppError) {
+        let message: String
+        switch error {
+        case .invalidParameterError:
+            message = "不適切な値が設定されました"
+        case .unknownError:
+            message = "予期せぬエラーが発生しました"
+        }
+        presentAlertController(with: message)
+    }
+    
+    init(view: WeatherViewProtocol, model: Fetchable) {
+        self.weatherView = view
         self.weatherModel = model
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: UIApplication.didBecomeActiveNotification, object: nil)
@@ -32,33 +54,12 @@ class WeatherViewController: UIViewController {
         weatherModel.delegate = self
     }
     
-    private func updateView(onSuccess information: WeatherInformation) {
-        let weatherViewState = WeatherViewState(information: information)
-        weatherView.changeDisplay(weatherViewState)
-    }
-    
-    private func updateView(onFailure error: WeatherAppError) {
-        let message: String
-        switch error {
-        case .invalidParameterError:
-            message = "不適切な値が設定されました"
-        case .unknownError:
-            message = "予期せぬエラーが発生しました"
-        }
-        presentAlertController(message)
-    }
-    
     @objc func reload() {
-        switchView()
+        NotificationCenter.default.post(name: .beginFetch, object: nil)
         weatherModel.fetch()
     }
     
-    private func switchView() {
-        weatherView.switchLoadingView()
-        weatherView.switchIndicatorAnimation()
-    }
-    
-    private func presentAlertController(_ message: String) {
+    func presentAlertController(with message: String) {
         let errorAlert = UIAlertController(title: "エラー", message: message, preferredStyle: .alert)
         let errorAction = UIAlertAction(title: "OK", style: .default)
         errorAlert.addAction(errorAction)
@@ -66,9 +67,9 @@ class WeatherViewController: UIViewController {
     }
 }
 
-// MARK:- WeatherViewDelegate
+// MARK:- UserActionDelegate
 
-extension WeatherViewController: WeatherViewDelegate {
+extension WeatherViewController {
     
     func didTapReloadButton(_ view: WeatherView) {
         reload()
@@ -80,19 +81,19 @@ extension WeatherViewController: WeatherViewDelegate {
 }
 
 // MARK:- FetcherDelegate
-extension WeatherViewController: FetchableDelegate {
+extension WeatherViewController {
     
     func fetch(_ fetcher: Fetchable?, didFetch information: WeatherInformation) {
         DispatchQueue.main.async { [weak self] in
-            self?.updateView(onSuccess: information)
-            self?.switchView()
+            self?.weatherView.weatherViewState = WeatherViewState(information: information)
+            NotificationCenter.default.post(name: .endFetch, object: nil)
         }
     }
     
     func fetch(_ fetcher: Fetchable?, didFailWithError error: WeatherAppError) {
         DispatchQueue.main.async { [weak self] in
-            self?.updateView(onFailure: error)
-            self?.switchView()
+            self?.handle(error)
+            NotificationCenter.default.post(name: .endFetch, object: nil)
         }
     }
 }
