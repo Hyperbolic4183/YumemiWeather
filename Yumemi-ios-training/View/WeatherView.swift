@@ -30,7 +30,7 @@ final class WeatherView: UIView, WeatherViewProtocol {
         }
     }
     
-    var delegate: WeatherViewDelegate?
+    weak var delegate: WeatherViewDelegate?
     
     private let stackViewForImageViewAndLabels = UIStackView()
     private let weatherImageView = UIImageView()
@@ -47,16 +47,23 @@ final class WeatherView: UIView, WeatherViewProtocol {
         backgroundColor = .white
         setup()
         addSubviewConstraints()
+        //通知を登録する
+        NotificationCenter.default.addObserver(self, selector: #selector(switchView), name: .beginFetch, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(switchView), name: .endFetch, object: nil)
     }
+    
     @available(*, unavailable, message: "init(coder:) has not been implemented")
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .beginFetch, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .endFetch, object: nil)
+    }
     private func setup() {
         setupStackViewForImageViewAndLabels()
         setupStackViewForLabels()
-        setupWeatherImage()
         setupLowestTemperatureLabel()
         setupHighestTemperatureLabel()
         setupCloseButton()
@@ -116,18 +123,14 @@ final class WeatherView: UIView, WeatherViewProtocol {
         stackViewForLabels.distribution = .fillEqually
     }
     
-    private func setupWeatherImage() {
-        weatherImageView.image = UIImage(systemName: "sun.max")
-    }
-    
     private func setupLowestTemperatureLabel() {
-        minTemperatureLabel.text = "25"
+        minTemperatureLabel.text = "--"
         minTemperatureLabel.textColor = .systemBlue
         minTemperatureLabel.textAlignment = .center
     }
     
     private func setupHighestTemperatureLabel() {
-        maxTemperatureLabel.text = "35"
+        maxTemperatureLabel.text = "--"
         maxTemperatureLabel.textColor = .systemRed
         maxTemperatureLabel.textAlignment = .center
     }
@@ -147,14 +150,7 @@ final class WeatherView: UIView, WeatherViewProtocol {
         loadingView.backgroundColor = .black
     }
     
-    func changeDisplay(_ weatherViewState: WeatherViewState) {
-        weatherImageView.image = weatherViewState.weather
-        weatherImageView.tintColor = weatherViewState.color
-        minTemperatureLabel.text = String(weatherViewState.minTemperature)
-        maxTemperatureLabel.text = String(weatherViewState.maxTemperature)
-    }
-    
-    func switchIndicatorAnimation() {
+    private func switchIndicatorAnimation() {
         if indicator.isAnimating {
             indicator.stopAnimating()
         } else {
@@ -162,7 +158,7 @@ final class WeatherView: UIView, WeatherViewProtocol {
         }
     }
     
-    func switchLoadingView() {
+    private func switchLoadingView() {
         if loadingView.isDescendant(of: self) {
             loadingView.removeFromSuperview()
         } else {
@@ -170,11 +166,21 @@ final class WeatherView: UIView, WeatherViewProtocol {
         }
     }
     
-    @objc func reload() {
+    @objc private func switchView() {
+        switchIndicatorAnimation()
+        switchLoadingView()
+    }
+    
+    @objc private func reload() {
         delegate?.didTapReloadButton(self)
     }
     
-    @objc func dismiss() {
+    @objc private func dismiss() {
         delegate?.didTapCloseButton(self)
     }
+}
+
+extension Notification.Name {
+    static let beginFetch = Notification.Name("beginFetch")
+    static let endFetch = Notification.Name("endFetch")
 }
