@@ -7,13 +7,31 @@
 
 import UIKit
 
+protocol WeatherViewProtocol: UIView {
+    var weatherViewState: WeatherViewState? { get set }
+    var delegate: WeatherViewDelegate? { get set }
+}
+
 protocol WeatherViewDelegate: AnyObject {
     func didTapReloadButton(_ view: WeatherView)
     func didTapCloseButton(_ view: WeatherView)
 }
 
-final class WeatherView: UIView {
-    weak var delegate: WeatherViewDelegate?
+final class WeatherView: UIView, WeatherViewProtocol {
+    
+    // MARK:- WeatherViewProtocol
+    var weatherViewState: WeatherViewState? {
+        didSet {
+            guard let weatherViewState = weatherViewState else { return }
+            self.minTemperatureLabel.text = weatherViewState.minTemperature
+            self.maxTemperatureLabel.text = weatherViewState.maxTemperature
+            self.weatherImageView.image = weatherViewState.weather
+            self.weatherImageView.tintColor = weatherViewState.color
+        }
+    }
+    
+    var delegate: WeatherViewDelegate?
+    
     private let stackViewForImageViewAndLabels = UIStackView()
     private let weatherImageView = UIImageView()
     private let stackViewForLabels = UIStackView()
