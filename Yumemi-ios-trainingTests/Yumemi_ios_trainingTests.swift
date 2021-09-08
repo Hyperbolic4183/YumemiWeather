@@ -10,58 +10,64 @@ import XCTest
 
 class Yumemi_ios_trainingTests: XCTestCase {
     
-    var successFetcherMock: SuccessFetcherMock!
-    var failedFetcherMock: FailedFetcherMock!
-    let weatherViewControllerMock = WeatherViewControllerMock()
+    var fetcherMock: FetcherMock!
     
     func test_天気予報がsunnyだったときに画面に晴れ画像が表示される() {
-        successFetcherMock = SuccessFetcherMock(weatherInformation: WeatherInformation(weather: .sunny, minTemperature: "", maxTemperature: ""))
-        successFetcherMock.delegate = weatherViewControllerMock
-        successFetcherMock.fetch()
-        let weatherImageView = getImage(from: weatherViewControllerMock.view)
-        XCTAssertEqual(weatherImageView, UIImage(named: "sunny"))
+        fetcherMock = FetcherMock(weatherInformation: WeatherInformation(weather: .sunny, minTemperature: "", maxTemperature: ""))
+        let weatherViewControllerMock = WeatherViewControllerMock(view: WeatherView(), model: fetcherMock)
+        fetcherMock.delegate = weatherViewControllerMock
+        fetcherMock.fetch()
+        let weatherImage = getImage(from: weatherViewControllerMock.weatherView)
+        XCTAssertEqual(weatherImage, UIImage(named: "sunny"))
     }
 
     func test_天気予報がcloudyだったときに画面に曇り画像が表示される() {
-        successFetcherMock = SuccessFetcherMock(weatherInformation: WeatherInformation(weather: .cloudy, minTemperature: "", maxTemperature: ""))
-        successFetcherMock.delegate = weatherViewControllerMock
-        successFetcherMock.fetch()
-        let weatherImageView = getImage(from: weatherViewControllerMock.view)
-        XCTAssertEqual(weatherImageView, UIImage(named: "cloudy"))
+        fetcherMock = FetcherMock(weatherInformation: WeatherInformation(weather: .cloudy, minTemperature: "", maxTemperature: ""))
+        let weatherViewControllerMock = WeatherViewControllerMock(view: WeatherView(), model: fetcherMock)
+        fetcherMock.delegate = weatherViewControllerMock
+        fetcherMock.fetch()
+        let weatherImage = getImage(from: weatherViewControllerMock.weatherView)
+        XCTAssertEqual(weatherImage, UIImage(named: "cloudy"))
     }
 
     func test_天気予報がrainyだったときに画面に雨画像が表示される() {
-        successFetcherMock = SuccessFetcherMock(weatherInformation: WeatherInformation(weather: .rainy, minTemperature: "", maxTemperature: ""))
-        successFetcherMock.delegate = weatherViewControllerMock
-        successFetcherMock.fetch()
-        let weatherImageView = getImage(from: weatherViewControllerMock.view)
-        XCTAssertEqual(weatherImageView, UIImage(named: "rainy"))
+        fetcherMock = FetcherMock(weatherInformation: WeatherInformation(weather: .rainy, minTemperature: "", maxTemperature: ""))
+        let weatherViewControllerMock = WeatherViewControllerMock(view: WeatherView(), model: fetcherMock)
+        fetcherMock.delegate = weatherViewControllerMock
+        fetcherMock.fetch()
+        let weatherImage = getImage(from: weatherViewControllerMock.weatherView)
+        XCTAssertEqual(weatherImage, UIImage(named: "rainy"))
     }
 
     func test_最高気温がUILabelに反映される() {
         let testMaxTemperature = "40"
-        successFetcherMock = SuccessFetcherMock(weatherInformation: WeatherInformation(weather: .sunny, minTemperature: "", maxTemperature: testMaxTemperature))
-        successFetcherMock.delegate = weatherViewControllerMock
-        successFetcherMock.fetch()
-        let maxTemperature = self.getMaxTemperatureLabel(from: weatherViewControllerMock.view)
+        fetcherMock = FetcherMock(weatherInformation: WeatherInformation(weather: .sunny, minTemperature: "", maxTemperature: testMaxTemperature))
+        let weatherViewControllerMock = WeatherViewControllerMock(view: WeatherView(), model: fetcherMock)
+        fetcherMock.delegate = weatherViewControllerMock
+        fetcherMock.fetch()
+        let maxTemperature = self.getMaxTemperatureLabel(from: weatherViewControllerMock.weatherView)
 
         XCTAssertEqual(testMaxTemperature, maxTemperature.text)
     }
 
     func test_最低気温がUILabelに反映される() {
-        let testMinTemperature = "-40"
-        successFetcherMock = SuccessFetcherMock(weatherInformation: WeatherInformation(weather: .sunny, minTemperature: testMinTemperature, maxTemperature: ""))
-        successFetcherMock.delegate = weatherViewControllerMock
-        successFetcherMock.fetch()
-        let minTemperature = self.getMinTemperatureLabel(from: weatherViewControllerMock.view)
+        let testMinTemperature = "40"
+        fetcherMock = FetcherMock(weatherInformation: WeatherInformation(weather: .sunny, minTemperature: "", maxTemperature: testMinTemperature))
+        let weatherViewControllerMock = WeatherViewControllerMock(view: WeatherView(), model: fetcherMock)
+        fetcherMock.delegate = weatherViewControllerMock
+        fetcherMock.fetch()
+        let minTemperature = self.getMaxTemperatureLabel(from: weatherViewControllerMock.weatherView)
+
         XCTAssertEqual(testMinTemperature, minTemperature.text)
     }
-    
-    func test_Fetcherでエラーが起きた時にWeatherViewControllerのdelegateが動く() {
-        failedFetcherMock = FailedFetcherMock(error: .invalidParameterError)
-        failedFetcherMock.delegate = weatherViewControllerMock
-        failedFetcherMock.fetch()
-        wait(for: [.expectationOfError], timeout: 2)
+    func test_天気予報でエラーだった時にFetchableDelegateメソッドが実行される() {
+        let expectation = XCTestExpectation(description: "error")
+        fetcherMock = FetcherMock(error: .invalidParameterError)
+        let weatherViewControllerMock = WeatherViewControllerMock(view: WeatherView(), model: fetcherMock, expectation: expectation)
+        fetcherMock.delegate = weatherViewControllerMock
+        fetcherMock.fetch()
+        
+        wait(for: [expectation], timeout: 2)
     }
     
     private func getStackView(from view: UIView) -> UIStackView {
