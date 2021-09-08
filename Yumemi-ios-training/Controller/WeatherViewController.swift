@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol WeatherViewControllerProtocol: WeatherViewDelegate, FetchableDelegate {
+protocol WeatherViewControllerProtocol {
     var weatherView: WeatherViewProtocol { get }
     var weatherModel: Fetchable { get }
     func handle(_ error: WeatherAppError)
