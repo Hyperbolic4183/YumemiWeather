@@ -13,7 +13,7 @@ protocol WeatherViewControllerProtocol: WeatherViewDelegate, FetchableDelegate {
     func handle(_ error: WeatherAppError)
 }
 
-class WeatherViewController: UIViewController, WeatherViewControllerProtocol {
+final class WeatherViewController: UIViewController, WeatherViewControllerProtocol {
     
     // MARK:- WeatherViewControllerProtocol
     
@@ -69,7 +69,7 @@ class WeatherViewController: UIViewController, WeatherViewControllerProtocol {
 
 // MARK:- UserActionDelegate
 
-extension WeatherViewController {
+extension WeatherViewController: WeatherViewDelegate {
     
     func didTapReloadButton(_ view: WeatherView) {
         reload()
@@ -81,7 +81,7 @@ extension WeatherViewController {
 }
 
 // MARK:- FetcherDelegate
-extension WeatherViewController {
+extension WeatherViewController: FetchableDelegate {
     
     func fetch(_ fetcher: Fetchable?, didFetch information: WeatherInformation) {
         DispatchQueue.main.async { [weak self] in
