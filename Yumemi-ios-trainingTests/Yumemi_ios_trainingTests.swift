@@ -17,7 +17,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
         fetcherMock.delegate = weatherViewController
         let weatherView = weatherViewController.weatherView
-        weatherViewController.weatherModel.fetch()
+        fetcherMock.fetch()
         let weatherImage = self.getImage(from: weatherView)
         XCTAssertEqual(weatherImage,UIImage(named: "sunny"))
     }
@@ -27,7 +27,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
         fetcherMock.delegate = weatherViewController
         let weatherView = weatherViewController.weatherView
-        weatherViewController.weatherModel.fetch()
+        fetcherMock.fetch()
         let weatherImage = self.getImage(from: weatherView)
         XCTAssertEqual(weatherImage,UIImage(named: "cloudy"))
     }
@@ -37,7 +37,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
         fetcherMock.delegate = weatherViewController
         let weatherView = weatherViewController.weatherView
-        weatherViewController.weatherModel.fetch()
+        fetcherMock.fetch()
         let weatherImage = self.getImage(from: weatherView)
         XCTAssertEqual(weatherImage,UIImage(named: "rainy"))
     }
@@ -68,7 +68,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
         fetcherMock = FetcherMock(error: .invalidParameterError)
         let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
         fetcherMock.delegate = weatherViewController
-        weatherViewController.weatherModel.fetch()
+        fetcherMock.fetch()
         wait(for: [expectation], timeout: 2)
     }
     
