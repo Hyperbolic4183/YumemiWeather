@@ -7,28 +7,13 @@
 
 import UIKit
 
-protocol WeatherViewProtocol: UIView {
-    var weatherViewState: WeatherViewState? { get set }
-    var delegate: WeatherViewDelegate? { get set }
-}
 
 protocol WeatherViewDelegate: AnyObject {
     func didTapReloadButton(_ view: WeatherView)
     func didTapCloseButton(_ view: WeatherView)
 }
 
-final class WeatherView: UIView, WeatherViewProtocol {
-    
-    // MARK:- WeatherViewProtocol
-    var weatherViewState: WeatherViewState? {
-        didSet {
-            guard let weatherViewState = weatherViewState else { return }
-            self.minTemperatureLabel.text = weatherViewState.minTemperature
-            self.maxTemperatureLabel.text = weatherViewState.maxTemperature
-            self.weatherImageView.image = weatherViewState.weather
-            self.weatherImageView.tintColor = weatherViewState.color
-        }
-    }
+final class WeatherView: UIView {
     
     weak var delegate: WeatherViewDelegate?
     
@@ -47,9 +32,6 @@ final class WeatherView: UIView, WeatherViewProtocol {
         backgroundColor = .white
         setup()
         addSubviewConstraints()
-        //通知を登録する
-        NotificationCenter.default.addObserver(self, selector: #selector(switchView), name: .beginFetch, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(switchView), name: .endFetch, object: nil)
     }
     
     @available(*, unavailable, message: "init(coder:) has not been implemented")
@@ -57,10 +39,6 @@ final class WeatherView: UIView, WeatherViewProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .beginFetch, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .endFetch, object: nil)
-    }
     private func setup() {
         setupStackViewForImageViewAndLabels()
         setupStackViewForLabels()
@@ -69,6 +47,7 @@ final class WeatherView: UIView, WeatherViewProtocol {
         setupCloseButton()
         setupReloadButton()
         setupLoadingView()
+        setupWeatherImage()
     }
     
     private func addSubviewConstraints() {
@@ -110,6 +89,10 @@ final class WeatherView: UIView, WeatherViewProtocol {
             indicator.topAnchor.constraint(equalTo: stackViewForImageViewAndLabels.bottomAnchor, constant: 40)
         ])
     }
+    
+    private func setupWeatherImage() {
+            weatherImageView.image = UIImage()
+        }
     
     private func setupStackViewForImageViewAndLabels() {
         stackViewForImageViewAndLabels.axis = .vertical
@@ -166,7 +149,14 @@ final class WeatherView: UIView, WeatherViewProtocol {
         }
     }
     
-    @objc private func switchView() {
+    func changeView(for weatherViewState: WeatherViewState) {
+        self.minTemperatureLabel.text = weatherViewState.minTemperature
+        self.maxTemperatureLabel.text = weatherViewState.maxTemperature
+        self.weatherImageView.image = weatherViewState.weather
+        self.weatherImageView.tintColor = weatherViewState.color
+    }
+    
+    func switchView() {
         switchIndicatorAnimation()
         switchLoadingView()
     }
@@ -180,7 +170,3 @@ final class WeatherView: UIView, WeatherViewProtocol {
     }
 }
 
-extension Notification.Name {
-    static let beginFetch = Notification.Name("beginFetch")
-    static let endFetch = Notification.Name("endFetch")
-}
