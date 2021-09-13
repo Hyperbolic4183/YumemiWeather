@@ -9,7 +9,6 @@ import UIKit
 
 class WeatherViewController: UIViewController {
 
-    
     let weatherView = WeatherView()
     var weatherModel: Fetchable
     var mainQueueScheduler: MainQueueScheduler

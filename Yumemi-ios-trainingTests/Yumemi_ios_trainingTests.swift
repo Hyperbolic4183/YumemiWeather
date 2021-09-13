@@ -10,7 +10,6 @@ import XCTest
 
 class Yumemi_ios_trainingTests: XCTestCase {
     
-    
     var fetcherMock: FetcherMock!
     
     func test_天気予報がsunnyだったときに画面に晴れ画像が表示される() {
