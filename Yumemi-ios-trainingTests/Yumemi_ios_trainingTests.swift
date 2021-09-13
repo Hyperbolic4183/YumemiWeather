@@ -10,10 +10,8 @@ import XCTest
 
 class Yumemi_ios_trainingTests: XCTestCase {
     
-    var fetcherMock: FetcherMock!
-    
     func test_天気予報がsunnyだったときに画面に晴れ画像が表示される() {
-        fetcherMock = FetcherMock(weatherInformation: .init(weather: .sunny, minTemperature: "", maxTemperature: ""))
+        let fetcherMock = FetcherMock(weatherInformation: .init(weather: .sunny, minTemperature: "", maxTemperature: ""))
         let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
         fetcherMock.delegate = weatherViewController
         let weatherView = weatherViewController.weatherView
@@ -23,7 +21,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
     }
     
     func test_天気予報がcloudyだったときに画面に曇り画像が表示される() {
-        fetcherMock = FetcherMock(weatherInformation: .init(weather: .cloudy, minTemperature: "", maxTemperature: ""))
+        let fetcherMock = FetcherMock(weatherInformation: .init(weather: .cloudy, minTemperature: "", maxTemperature: ""))
         let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
         fetcherMock.delegate = weatherViewController
         let weatherView = weatherViewController.weatherView
@@ -33,7 +31,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
     }
 
     func test_天気予報がrainyだったときに画面に雨画像が表示される() {
-        fetcherMock = FetcherMock(weatherInformation: .init(weather: .rainy, minTemperature: "", maxTemperature: ""))
+        let fetcherMock = FetcherMock(weatherInformation: .init(weather: .rainy, minTemperature: "", maxTemperature: ""))
         let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
         fetcherMock.delegate = weatherViewController
         let weatherView = weatherViewController.weatherView
@@ -44,7 +42,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
 
     func test_最高気温がUILabelに反映される() {
         let testMaxTemperature = "40"
-        fetcherMock = FetcherMock(weatherInformation: WeatherInformation(weather: .sunny, minTemperature: "", maxTemperature: testMaxTemperature))
+        let fetcherMock = FetcherMock(weatherInformation: WeatherInformation(weather: .sunny, minTemperature: "", maxTemperature: testMaxTemperature))
         let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
         fetcherMock.delegate = weatherViewController
         fetcherMock.fetch()
@@ -55,7 +53,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
 
     func test_最低気温がUILabelに反映される() {
         let testMinTemperature = "40"
-        fetcherMock = FetcherMock(weatherInformation: WeatherInformation(weather: .sunny, minTemperature: "", maxTemperature: testMinTemperature))
+        let fetcherMock = FetcherMock(weatherInformation: WeatherInformation(weather: .sunny, minTemperature: "", maxTemperature: testMinTemperature))
         let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
         fetcherMock.delegate = weatherViewController
         fetcherMock.fetch()
@@ -65,7 +63,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
     }
     func test_天気予報がエラーだった時に処理が行われる() {
         let expectation = Expectation.fetchFailed
-        fetcherMock = FetcherMock(error: .invalidParameterError)
+        let fetcherMock = FetcherMock(error: .invalidParameterError)
         let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
         fetcherMock.delegate = weatherViewController
         fetcherMock.fetch()
