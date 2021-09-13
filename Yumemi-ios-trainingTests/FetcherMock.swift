@@ -10,25 +10,16 @@ class FetcherMock: Fetchable {
     
     var delegate: FetchableDelegate?
     
-    var weatherInformation: WeatherInformation!
-    var error: WeatherAppError!
-    let isFetchSucceed: Bool
-    //fetchが成功したモックを作成するときに使うイニシャライザ
-    init(weatherInformation: WeatherInformation) {
-        self.weatherInformation = weatherInformation
-        isFetchSucceed = true
-    }
-    
-    //fetchが失敗したモック作成するときに使うイニシャライザ
-    init(error: WeatherAppError) {
-        self.error = error
-        isFetchSucceed = false
+    let result: Result<WeatherInformation, WeatherAppError>
+    init(result: Result<WeatherInformation, WeatherAppError>) {
+        self.result = result
     }
     
     func fetch() {
-        if isFetchSucceed {
+        switch result {
+        case .success(let weatherInformation):
             delegate?.fetch(self, didFetch: weatherInformation)
-        } else {
+        case .failure(let error):
             delegate?.fetch(self, didFailWithError: error)
         }
     }
