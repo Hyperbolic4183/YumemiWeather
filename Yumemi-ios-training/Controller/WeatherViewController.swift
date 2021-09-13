@@ -49,7 +49,7 @@ class WeatherViewController: UIViewController {
     }
     
     @objc func reload() {
-        
+        weatherView.switchView()
         weatherModel.fetch()
     }
 }
@@ -58,7 +58,6 @@ class WeatherViewController: UIViewController {
 extension WeatherViewController: WeatherViewDelegate {
     
     func didTapReloadButton(_ view: WeatherView) {
-        weatherView.switchView()
         reload()
     }
 
