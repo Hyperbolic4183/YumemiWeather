@@ -19,7 +19,6 @@ class WeatherViewController: UIViewController {
         self.mainQueueScheduler = .live
         self.errorHandler = .presentAlertViewController
         super.init(nibName: nil, bundle: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     init(model: Fetchable, queueScheduler: MainQueueScheduler, errorHandler: ErrorHandler) {
@@ -27,7 +26,6 @@ class WeatherViewController: UIViewController {
         self.mainQueueScheduler = queueScheduler
         self.errorHandler = errorHandler
         super.init(nibName: nil, bundle: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     deinit {
