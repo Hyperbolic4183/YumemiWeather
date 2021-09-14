@@ -93,45 +93,35 @@ private extension WeatherView {
     var stackViewForImageViewAndLabels: UIStackView? {
         return self
             .subviews
-            .filter{$0.accessibilityIdentifier == AccessibilityIdentifier.stackViewForImageViewAndLabels}
-            .compactMap{$0 as? UIStackView}
-            .first
+            .first(where: { $0.accessibilityIdentifier == AccessibilityIdentifier.stackViewForImageViewAndLabels }) as? UIStackView
     }
     
     var stackViewForLabels: UIStackView? {
         return self
             .stackViewForImageViewAndLabels?
             .subviews
-            .filter{$0.accessibilityIdentifier! == AccessibilityIdentifier.stackViewForLabels}
-            .compactMap{$0 as? UIStackView}
-            .first
+            .first(where: { $0.accessibilityIdentifier! == AccessibilityIdentifier.stackViewForLabels }) as? UIStackView
     }
     
     var weatherImageView: UIImageView? {
         return self
             .stackViewForImageViewAndLabels?
             .subviews
-            .filter{$0.accessibilityIdentifier == AccessibilityIdentifier.weatherImageView}
-            .compactMap{$0 as? UIImageView}
-            .first
+            .first(where: { $0.accessibilityIdentifier == AccessibilityIdentifier.weatherImageView }) as? UIImageView
     }
     
     var minTemperatureLabel: UILabel? {
         return self
             .stackViewForLabels?
             .subviews
-            .filter{ $0.accessibilityIdentifier == AccessibilityIdentifier.minTemperatureLabel }
-            .compactMap{$0 as? UILabel}
-            .first
+            .first(where: { $0.accessibilityIdentifier == AccessibilityIdentifier.minTemperatureLabel }) as? UILabel
     }
     
     var maxTemperatureLabel: UILabel? {
         return self
             .stackViewForLabels?
             .subviews
-            .filter{ $0.accessibilityIdentifier == AccessibilityIdentifier.maxTemperatureLabel }
-            .compactMap{$0 as? UILabel}
-            .first
+            .first(where: { $0.accessibilityIdentifier == AccessibilityIdentifier.maxTemperatureLabel }) as? UILabel
     }
 }
 
