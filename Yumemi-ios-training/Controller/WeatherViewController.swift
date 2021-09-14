@@ -45,7 +45,7 @@ class WeatherViewController: UIViewController {
     }
 }
 
-// MARK:- UserActionDelegate
+// MARK:- WeatherViewDelegate
 extension WeatherViewController: WeatherViewDelegate {
     
     func didTapReloadButton(_ view: WeatherView) {
