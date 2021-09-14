@@ -9,13 +9,13 @@ import UIKit
 
 class WeatherViewController: UIViewController {
 
-    let weatherView = WeatherView()
+    private let weatherView: WeatherView
     private var weatherModel: Fetchable
-    var mainQueueScheduler: MainQueueScheduler
-    var errorHandler: ErrorHandler
+    private var mainQueueScheduler: MainQueueScheduler
+    private var errorHandler: ErrorHandler
     
-    
-    init(model: Fetchable, queueScheduler: MainQueueScheduler = .live, errorHandler: ErrorHandler = .presentAlertViewController) {
+    init(view: WeatherView = .init(), model: Fetchable, queueScheduler: MainQueueScheduler = .live, errorHandler: ErrorHandler = .presentAlertViewController) {
+        self.weatherView = view
         self.weatherModel = model
         self.mainQueueScheduler = queueScheduler
         self.errorHandler = errorHandler
