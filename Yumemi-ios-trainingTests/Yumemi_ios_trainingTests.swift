@@ -16,8 +16,8 @@ class Yumemi_ios_trainingTests: XCTestCase {
         fetcherMock.delegate = weatherViewController
         let weatherView = weatherViewController.weatherView
         fetcherMock.fetch()
-        let weatherImage = self.getImage(from: weatherView)
-        XCTAssertEqual(weatherImage,UIImage(named: "sunny"))
+        let weatherImageView = weatherView.weatherImageView
+        XCTAssertEqual(weatherImageView?.image,UIImage(named: "sunny"))
     }
     
     func test_天気予報がcloudyだったときに画面に曇り画像が表示される() {
@@ -26,8 +26,8 @@ class Yumemi_ios_trainingTests: XCTestCase {
         fetcherMock.delegate = weatherViewController
         let weatherView = weatherViewController.weatherView
         fetcherMock.fetch()
-        let weatherImage = self.getImage(from: weatherView)
-        XCTAssertEqual(weatherImage,UIImage(named: "cloudy"))
+        let weatherImageView = weatherView.weatherImageView
+        XCTAssertEqual(weatherImageView?.image,UIImage(named: "cloudy"))
     }
 
     func test_天気予報がrainyだったときに画面に雨画像が表示される() {
@@ -36,19 +36,19 @@ class Yumemi_ios_trainingTests: XCTestCase {
         fetcherMock.delegate = weatherViewController
         let weatherView = weatherViewController.weatherView
         fetcherMock.fetch()
-        let weatherImage = self.getImage(from: weatherView)
-        XCTAssertEqual(weatherImage,UIImage(named: "rainy"))
+        let weatherImageView = weatherView.weatherImageView
+        XCTAssertEqual(weatherImageView?.image,UIImage(named: "rainy"))
     }
 
     func test_最高気温がUILabelに反映される() {
         let testMaxTemperature = "40"
         let fetcherMock = FetcherMock(result: .success(.init(weather: .sunny, minTemperature: "", maxTemperature: testMaxTemperature)))
         let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
+        let weatherView = weatherViewController.weatherView
         fetcherMock.delegate = weatherViewController
         fetcherMock.fetch()
-        let maxTemperature = self.getMaxTemperatureLabel(from: weatherViewController.weatherView)
-
-        XCTAssertEqual(testMaxTemperature, maxTemperature.text)
+        let maxTemperature = weatherView.maxTemperatureLabel
+        XCTAssertEqual(testMaxTemperature, maxTemperature?.text)
     }
 
     func test_最低気温がUILabelに反映される() {
@@ -57,10 +57,10 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
         fetcherMock.delegate = weatherViewController
         fetcherMock.fetch()
-        let minTemperature = self.getMaxTemperatureLabel(from: weatherViewController.weatherView)
-
-        XCTAssertEqual(testMinTemperature, minTemperature.text)
+        let minTemperature = weatherViewController.weatherView.minTemperatureLabel
+        XCTAssertEqual(testMinTemperature, minTemperature?.text)
     }
+    
     func test_天気予報がエラーだった時に処理が行われる() {
         let expectation = Expectation.fetchFailed
         let fetcherMock = FetcherMock(result: .failure(.invalidParameterError))
@@ -70,37 +70,53 @@ class Yumemi_ios_trainingTests: XCTestCase {
         wait(for: [expectation], timeout: 2)
     }
     
-    private func getStackView(from view: UIView) -> UIStackView {
-        view.subviews.first(where: { $0 is UIStackView})! as! UIStackView
-    }
-    
-    private func getImage(from view: UIView) -> UIImage {
-        //WeatherView含まれるstackViewForImageViewAndLabelsを取得
-        let stackViewForImageViewAndLabels = getStackView(from: view)
-        
-        let weatherImageView = stackViewForImageViewAndLabels.subviews.first(where: { $0 is UIImageView })! as! UIImageView
-        return weatherImageView.image!
-    }
-    
-    private func getMaxTemperatureLabel(from view: UIView) -> UILabel {
-        //WeatherView含まれる2つのUIStackViewのうち、2番目に追加したstackViewForLabelsを取得
-        let stackViewForImageViewAndLabels = getStackView(from: view)
-        //stackViewForImageViewAndLabelsに含まれるstackViewForLabelsを取得
-        let stackViewForLabels = getStackView(from: stackViewForImageViewAndLabels)
-        //stackViewForLabelsに2番目に追加したUILabelを取得
-        let maxTemperatureLabel = stackViewForLabels.subviews[1] as! UILabel
-        return maxTemperatureLabel
-    }
-    
-    private func getMinTemperatureLabel(from view: UIView) -> UILabel {
-        //WeatherView含まれるstackViewForImageViewAndLabelsを取得
-        let stackViewForImageViewAndLabels = getStackView(from: view)
-        //stackViewForImageViewAndLabelsに含まれるstackViewForLabelsを取得
-        let stackViewForLabels = getStackView(from: stackViewForImageViewAndLabels)
-        //stackViewForLabelsに初めに追加したUILabelを取得
-        let minTemperatureLabel = stackViewForLabels.subviews[0] as! UILabel
-        return minTemperatureLabel
-    }
-    
 }
+
+private extension WeatherView {
+    
+    var stackViewForImageViewAndLabels: UIStackView? {
+        return self
+            .subviews
+            .filter{$0.accessibilityIdentifier == AccessibilityIdentifier.stackViewForImageViewAndLabels}
+            .compactMap{$0 as? UIStackView}
+            .first
+    }
+    
+    var stackViewForLabels: UIStackView? {
+        return self
+            .stackViewForImageViewAndLabels?
+            .subviews
+            .filter{$0.accessibilityIdentifier! == AccessibilityIdentifier.stackViewForLabels}
+            .compactMap{$0 as? UIStackView}
+            .first
+    }
+    
+    var weatherImageView: UIImageView? {
+        return self
+            .stackViewForImageViewAndLabels?
+            .subviews
+            .filter{$0.accessibilityIdentifier == AccessibilityIdentifier.weatherImageView}
+            .compactMap{$0 as? UIImageView}
+            .first
+    }
+    
+    var minTemperatureLabel: UILabel? {
+        return self
+            .stackViewForLabels?
+            .subviews
+            .filter{ $0.accessibilityIdentifier == AccessibilityIdentifier.minTemperatureLabel }
+            .compactMap{$0 as? UILabel}
+            .first
+    }
+    
+    var maxTemperatureLabel: UILabel? {
+        return self
+            .stackViewForLabels?
+            .subviews
+            .filter{ $0.accessibilityIdentifier == AccessibilityIdentifier.maxTemperatureLabel }
+            .compactMap{$0 as? UILabel}
+            .first
+    }
+}
+
 
