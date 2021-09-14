@@ -91,28 +91,32 @@ final class WeatherView: UIView {
     }
     
     private func setupWeatherImage() {
-            weatherImageView.image = UIImage()
-        }
+        weatherImageView.accessibilityIdentifier = AccessibilityIdentifier.weatherImageView
+    }
     
     private func setupStackViewForImageViewAndLabels() {
+        stackViewForImageViewAndLabels.accessibilityIdentifier = AccessibilityIdentifier.stackViewForImageViewAndLabels
         stackViewForImageViewAndLabels.axis = .vertical
         stackViewForImageViewAndLabels.alignment = .fill
         stackViewForImageViewAndLabels.distribution = .fill
     }
     
     private func setupStackViewForLabels() {
+        stackViewForLabels.accessibilityIdentifier = AccessibilityIdentifier.stackViewForLabels
         stackViewForLabels.axis = .horizontal
         stackViewForLabels.alignment = .fill
         stackViewForLabels.distribution = .fillEqually
     }
     
     private func setupLowestTemperatureLabel() {
+        minTemperatureLabel.accessibilityIdentifier = AccessibilityIdentifier.minTemperatureLabel
         minTemperatureLabel.text = "--"
         minTemperatureLabel.textColor = .systemBlue
         minTemperatureLabel.textAlignment = .center
     }
     
     private func setupHighestTemperatureLabel() {
+        maxTemperatureLabel.accessibilityIdentifier = AccessibilityIdentifier.maxTemperatureLabel
         maxTemperatureLabel.text = "--"
         maxTemperatureLabel.textColor = .systemRed
         maxTemperatureLabel.textAlignment = .center
