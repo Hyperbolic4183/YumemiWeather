@@ -14,7 +14,7 @@ class WeatherViewController: UIViewController {
     private let errorHandler: ErrorHandler
     private let mainQueueScheduler: MainQueueScheduler
     
-    init(view: WeatherView = .init(), model: Fetchable, errorHandler: ErrorHandler = .presentAlertViewController,queueScheduler: MainQueueScheduler = .live) {
+    init(view: WeatherView = .init(), model: Fetchable, errorHandler: ErrorHandler = .presentAlertViewController, queueScheduler: MainQueueScheduler = .live) {
         self.weatherView = view
         self.weatherModel = model
         self.errorHandler = errorHandler
