@@ -37,18 +37,12 @@ class WeatherViewController: UIViewController {
     }
     
     private func updateView(_ result: Result<WeatherInformation, WeatherAppError>) {
+        
         switch result {
         case .success(let information):
             let weatherViewState = WeatherViewState(information: information)
             weatherView.changeView(for: weatherViewState)
         case .failure(let error):
-            var message = ""
-            switch error {
-            case .invalidParameterError:
-                message = "不適切な値が設定されました"
-            case .unknownError:
-                message = "予期せぬエラーが発生しました"
-            }
             errorHandler.handle(self,error)
         }
     }
@@ -71,23 +65,5 @@ extension WeatherViewController: WeatherViewDelegate {
 
     func didTapCloseButton(_ view: WeatherView) {
         self.dismiss(animated: true, completion: nil)
-    }
-}
-
-// MARK:- FetcherDelegate
-extension WeatherViewController: FetchableDelegate {
-    
-    func fetch(_ fetcher: Fetchable?, didFetch information: WeatherInformation) {
-        mainQueueScheduler.schedule {
-            self.weatherView.changeView(for: .init(information: information))
-            self.weatherView.switchView()
-        }
-    }
-    
-    func fetch(_ fetcher: Fetchable?, didFailWithError error: WeatherAppError) {
-        mainQueueScheduler.schedule {
-            self.errorHandler.handle(self, error)
-            self.weatherView.switchView()
-        }
     }
 }
