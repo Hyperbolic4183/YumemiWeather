@@ -104,7 +104,7 @@ class Yumemi_ios_trainingTests: XCTestCase {
 
     func test_天気予報がエラーだった時に処理が行われる() {
         let expectation = Expectation.fetchFailed
-        let errorHandler: ErrorHandler = .fulfillXCTestExpectation
+        let errorHandler = ErrorHandler.fulfillXCTestExpectation
         let fetcherMock = FetcherMock(result: .failure(.invalidParameterError))
         let weatherViewController = WeatherViewController(model: fetcherMock, errorHandler: .fulfillXCTestExpectation)
         
