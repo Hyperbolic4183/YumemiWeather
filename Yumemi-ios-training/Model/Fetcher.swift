@@ -41,9 +41,7 @@ final class Fetcher: Fetchable {
                 assertionFailure("想定外のエラーが発生しました")
                 result = .failure(.unknownError)
             }
-            DispatchQueue.main.async {
-                completion(result)
-            }
+            completion(result)
         }
     }
     

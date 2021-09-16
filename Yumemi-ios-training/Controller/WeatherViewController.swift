@@ -50,8 +50,10 @@ class WeatherViewController: UIViewController {
     @objc func reload() {
         weatherView.switchView()
         weatherModel.fetch { [weak self] result in
-            self?.updateView(result)
-            self?.weatherView.switchView()
+            DispatchQueue.main.async {
+                self?.updateView(result)
+                self?.weatherView.switchView()
+            }
         }
     }
 }
