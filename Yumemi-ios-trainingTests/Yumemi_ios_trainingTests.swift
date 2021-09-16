@@ -11,76 +11,118 @@ import XCTest
 class Yumemi_ios_trainingTests: XCTestCase {
     
     func test_天気予報がsunnyだったときに画面に晴れ画像が表示される() {
-        let sunnyWeatherInformation = WeatherInformation(weather: .sunny, minTemperature: "0", maxTemperature: "0")
-        let view = WeatherView()
-        view.changeDisplay(WeatherViewState(information: sunnyWeatherInformation))
-        let weatherImage = getImage(from: view)
-        XCTAssertEqual(weatherImage, UIImage(named: "sunny"))
+        let weatherView = WeatherView()
+        let fetcherMock = FetcherMock(result: .success(.init(weather: .sunny, minTemperature: "", maxTemperature: "")))
+        let weatherViewController = WeatherViewController(view: weatherView,
+                                                          model: fetcherMock,
+                                                          queueScheduler: .immediate,
+                                                          errorHandler: .fulfillXCTestExpectation)
+        fetcherMock.delegate = weatherViewController
+        fetcherMock.fetch()
+        let weatherImageView = weatherView.weatherImageView
+        XCTAssertEqual(weatherImageView?.image,UIImage(named: "sunny"))
     }
     
     func test_天気予報がcloudyだったときに画面に曇り画像が表示される() {
-        let cloudyWeatherInformation = WeatherInformation(weather: .cloudy, minTemperature: "0", maxTemperature: "0")
-        let view = WeatherView()
-        view.changeDisplay(WeatherViewState(information: cloudyWeatherInformation))
-        let weatherImage = getImage(from: view)
-        XCTAssertEqual(weatherImage, UIImage(named: "cloudy"))
+        let weatherView = WeatherView()
+        let fetcherMock = FetcherMock(result: .success(.init(weather: .cloudy, minTemperature: "", maxTemperature: "")))
+        let weatherViewController = WeatherViewController(view: weatherView,
+                                                          model: fetcherMock,
+                                                          queueScheduler: .immediate,
+                                                          errorHandler: .fulfillXCTestExpectation)
+        fetcherMock.delegate = weatherViewController
+        fetcherMock.fetch()
+        let weatherImageView = weatherView.weatherImageView
+        XCTAssertEqual(weatherImageView?.image,UIImage(named: "cloudy"))
     }
-    
+
     func test_天気予報がrainyだったときに画面に雨画像が表示される() {
-        let rainyWeatherInformation = WeatherInformation(weather: .rainy, minTemperature: "0", maxTemperature: "0")
-        let view = WeatherView()
-        view.changeDisplay(WeatherViewState(information: rainyWeatherInformation))
-        let weatherImage = getImage(from: view)
-        XCTAssertEqual(weatherImage, UIImage(named: "rainy"))
+        let weatherView = WeatherView()
+        let fetcherMock = FetcherMock(result: .success(.init(weather: .rainy, minTemperature: "", maxTemperature: "")))
+        let weatherViewController = WeatherViewController(view: weatherView,
+                                                          model: fetcherMock,
+                                                          queueScheduler: .immediate,
+                                                          errorHandler: .fulfillXCTestExpectation)
+        fetcherMock.delegate = weatherViewController
+        fetcherMock.fetch()
+        let weatherImageView = weatherView.weatherImageView
+        XCTAssertEqual(weatherImageView?.image,UIImage(named: "rainy"))
     }
-    
+
     func test_最高気温がUILabelに反映される() {
+        let weatherView = WeatherView()
         let testMaxTemperature = "40"
-        let view = WeatherView()
-        let minTemperatureWeatherInformation = WeatherInformation(weather: .sunny, minTemperature: "0", maxTemperature: testMaxTemperature)
-        view.changeDisplay(WeatherViewState(information: minTemperatureWeatherInformation))
-        let maxTemperatureLabel = getMaxTemperatureLabel(from: view)
-        XCTAssertEqual(maxTemperatureLabel.text, testMaxTemperature)
+        let fetcherMock = FetcherMock(result: .success(.init(weather: .sunny, minTemperature: "", maxTemperature: testMaxTemperature)))
+        let weatherViewController = WeatherViewController(view: weatherView,
+                                                          model: fetcherMock,
+                                                          queueScheduler: .immediate,
+                                                          errorHandler: .fulfillXCTestExpectation)
+        fetcherMock.delegate = weatherViewController
+        fetcherMock.fetch()
+        let maxTemperature = weatherView.maxTemperatureLabel
+        XCTAssertEqual(testMaxTemperature, maxTemperature?.text)
     }
-    
+
     func test_最低気温がUILabelに反映される() {
-        let testMinTemperature = "-40"
-        let view = WeatherView()
-        let minTemperatureWeatherInformation = WeatherInformation(weather: .sunny, minTemperature: testMinTemperature, maxTemperature: "0")
-        view.changeDisplay(WeatherViewState(information: minTemperatureWeatherInformation))
-        let minTemperatureLabel = getMinTemperatureLabel(from: view)
-        XCTAssertEqual(minTemperatureLabel.text, testMinTemperature)
+        let weatherView = WeatherView()
+        let testMinTemperature = "40"
+        let fetcherMock = FetcherMock(result: .success(.init(weather: .sunny, minTemperature: testMinTemperature, maxTemperature: "")))
+        let weatherViewController = WeatherViewController(view: weatherView,
+                                                          model: fetcherMock,
+                                                          queueScheduler: .immediate,
+                                                          errorHandler: .fulfillXCTestExpectation)
+        fetcherMock.delegate = weatherViewController
+        fetcherMock.fetch()
+        let minTemperature = weatherView.minTemperatureLabel
+        XCTAssertEqual(testMinTemperature, minTemperature?.text)
     }
     
-    private func getStackView(from view: UIView) -> UIStackView {
-        view.subviews.first(where: { $0 is UIStackView})! as! UIStackView
-    }
-    
-    private func getImage(from view: WeatherView) -> UIImage? {
-        //WeatherView含まれるstackViewForImageViewAndLabelsを取得
-        let stackViewForImageViewAndLabels = getStackView(from: view)
-        let weatherImageView = stackViewForImageViewAndLabels.subviews.first(where: { $0 is UIImageView })! as! UIImageView
-        return weatherImageView.image
-    }
-    
-    private func getMaxTemperatureLabel(from view: WeatherView) -> UILabel {
-        //WeatherView含まれる2つのUIStackViewのうち、2番目に追加したstackViewForLabelsを取得
-        let stackViewForImageViewAndLabels = getStackView(from: view)
-        //stackViewForImageViewAndLabelsに含まれるstackViewForLabelsを取得
-        let stackViewForLabels = getStackView(from: stackViewForImageViewAndLabels)
-        //stackViewForLabelsに2番目に追加したUILabelを取得
-        let maxTemperatureLabel = stackViewForLabels.subviews[1] as! UILabel
-        return maxTemperatureLabel
-    }
-    
-    private func getMinTemperatureLabel(from view: WeatherView) -> UILabel {
-        //WeatherView含まれるstackViewForImageViewAndLabelsを取得
-        let stackViewForImageViewAndLabels = getStackView(from: view)
-        //stackViewForImageViewAndLabelsに含まれるstackViewForLabelsを取得
-        let stackViewForLabels = getStackView(from: stackViewForImageViewAndLabels)
-        //stackViewForLabelsに初めに追加したUILabelを取得
-        let minTemperatureLabel = stackViewForLabels.subviews[0] as! UILabel
-        return minTemperatureLabel
+    func test_天気予報がエラーだった時に処理が行われる() {
+        let expectation = Expectation.fetchFailed
+        let fetcherMock = FetcherMock(result: .failure(.invalidParameterError))
+        let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
+        fetcherMock.delegate = weatherViewController
+        fetcherMock.fetch()
+        wait(for: [expectation], timeout: 2)
     }
     
 }
+
+private extension WeatherView {
+    
+    var stackViewForImageViewAndLabels: UIStackView? {
+        return self
+            .subviews
+            .first(where: { $0.accessibilityIdentifier == AccessibilityIdentifier.stackViewForImageViewAndLabels }) as? UIStackView
+    }
+    
+    var stackViewForLabels: UIStackView? {
+        return self
+            .stackViewForImageViewAndLabels?
+            .subviews
+            .first(where: { $0.accessibilityIdentifier! == AccessibilityIdentifier.stackViewForLabels }) as? UIStackView
+    }
+    
+    var weatherImageView: UIImageView? {
+        return self
+            .stackViewForImageViewAndLabels?
+            .subviews
+            .first(where: { $0.accessibilityIdentifier == AccessibilityIdentifier.weatherImageView }) as? UIImageView
+    }
+    
+    var minTemperatureLabel: UILabel? {
+        return self
+            .stackViewForLabels?
+            .subviews
+            .first(where: { $0.accessibilityIdentifier == AccessibilityIdentifier.minTemperatureLabel }) as? UILabel
+    }
+    
+    var maxTemperatureLabel: UILabel? {
+        return self
+            .stackViewForLabels?
+            .subviews
+            .first(where: { $0.accessibilityIdentifier == AccessibilityIdentifier.maxTemperatureLabel }) as? UILabel
+    }
+}
+
+

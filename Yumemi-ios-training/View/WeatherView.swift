@@ -7,13 +7,16 @@
 
 import UIKit
 
+
 protocol WeatherViewDelegate: AnyObject {
     func didTapReloadButton(_ view: WeatherView)
     func didTapCloseButton(_ view: WeatherView)
 }
 
 final class WeatherView: UIView {
+    
     weak var delegate: WeatherViewDelegate?
+    
     private let stackViewForImageViewAndLabels = UIStackView()
     private let weatherImageView = UIImageView()
     private let stackViewForLabels = UIStackView()
@@ -30,6 +33,7 @@ final class WeatherView: UIView {
         setup()
         addSubviewConstraints()
     }
+    
     @available(*, unavailable, message: "init(coder:) has not been implemented")
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -38,12 +42,12 @@ final class WeatherView: UIView {
     private func setup() {
         setupStackViewForImageViewAndLabels()
         setupStackViewForLabels()
-        setupWeatherImage()
         setupLowestTemperatureLabel()
         setupHighestTemperatureLabel()
         setupCloseButton()
         setupReloadButton()
         setupLoadingView()
+        setupWeatherImage()
     }
     
     private func addSubviewConstraints() {
@@ -86,30 +90,34 @@ final class WeatherView: UIView {
         ])
     }
     
+    private func setupWeatherImage() {
+        weatherImageView.accessibilityIdentifier = AccessibilityIdentifier.weatherImageView
+    }
+    
     private func setupStackViewForImageViewAndLabels() {
+        stackViewForImageViewAndLabels.accessibilityIdentifier = AccessibilityIdentifier.stackViewForImageViewAndLabels
         stackViewForImageViewAndLabels.axis = .vertical
         stackViewForImageViewAndLabels.alignment = .fill
         stackViewForImageViewAndLabels.distribution = .fill
     }
     
     private func setupStackViewForLabels() {
+        stackViewForLabels.accessibilityIdentifier = AccessibilityIdentifier.stackViewForLabels
         stackViewForLabels.axis = .horizontal
         stackViewForLabels.alignment = .fill
         stackViewForLabels.distribution = .fillEqually
     }
     
-    private func setupWeatherImage() {
-        weatherImageView.image = UIImage(systemName: "sun.max")
-    }
-    
     private func setupLowestTemperatureLabel() {
-        minTemperatureLabel.text = "25"
+        minTemperatureLabel.accessibilityIdentifier = AccessibilityIdentifier.minTemperatureLabel
+        minTemperatureLabel.text = "--"
         minTemperatureLabel.textColor = .systemBlue
         minTemperatureLabel.textAlignment = .center
     }
     
     private func setupHighestTemperatureLabel() {
-        maxTemperatureLabel.text = "35"
+        maxTemperatureLabel.accessibilityIdentifier = AccessibilityIdentifier.maxTemperatureLabel
+        maxTemperatureLabel.text = "--"
         maxTemperatureLabel.textColor = .systemRed
         maxTemperatureLabel.textAlignment = .center
     }
@@ -129,14 +137,7 @@ final class WeatherView: UIView {
         loadingView.backgroundColor = .black
     }
     
-    func changeDisplay(_ weatherViewState: WeatherViewState) {
-        weatherImageView.image = weatherViewState.weather
-        weatherImageView.tintColor = weatherViewState.color
-        minTemperatureLabel.text = String(weatherViewState.minTemperature)
-        maxTemperatureLabel.text = String(weatherViewState.maxTemperature)
-    }
-    
-    func switchIndicatorAnimation() {
+    private func switchIndicatorAnimation() {
         if indicator.isAnimating {
             indicator.stopAnimating()
         } else {
@@ -144,7 +145,7 @@ final class WeatherView: UIView {
         }
     }
     
-    func switchLoadingView() {
+    private func switchLoadingView() {
         if loadingView.isDescendant(of: self) {
             loadingView.removeFromSuperview()
         } else {
@@ -152,11 +153,24 @@ final class WeatherView: UIView {
         }
     }
     
-    @objc func reload() {
+    func changeView(for weatherViewState: WeatherViewState) {
+        self.minTemperatureLabel.text = weatherViewState.minTemperature
+        self.maxTemperatureLabel.text = weatherViewState.maxTemperature
+        self.weatherImageView.image = weatherViewState.weather
+        self.weatherImageView.tintColor = weatherViewState.color
+    }
+    
+    func switchView() {
+        switchIndicatorAnimation()
+        switchLoadingView()
+    }
+    
+    @objc private func reload() {
         delegate?.didTapReloadButton(self)
     }
     
-    @objc func dismiss() {
+    @objc private func dismiss() {
         delegate?.didTapCloseButton(self)
     }
 }
+

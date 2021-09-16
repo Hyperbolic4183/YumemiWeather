@@ -8,13 +8,20 @@
 import UIKit
 
 class WeatherViewController: UIViewController {
-    private let weatherView = WeatherView()
+
+    private let weatherView: WeatherView
     private var weatherModel: Fetchable
-    init(model: Fetchable) {
+    private var mainQueueScheduler: MainQueueScheduler
+    private var errorHandler: ErrorHandler
+    
+    init(view: WeatherView = .init(), model: Fetchable, queueScheduler: MainQueueScheduler = .live, errorHandler: ErrorHandler = .presentAlertViewController) {
+        self.weatherView = view
         self.weatherModel = model
+        self.mainQueueScheduler = queueScheduler
+        self.errorHandler = errorHandler
         super.init(nibName: nil, bundle: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
+    
     deinit {
         print("WeatherViewController released")
     }
@@ -32,42 +39,13 @@ class WeatherViewController: UIViewController {
         weatherModel.delegate = self
     }
     
-    private func updateView(onSuccess information: WeatherInformation) {
-        let weatherViewState = WeatherViewState(information: information)
-        weatherView.changeDisplay(weatherViewState)
-    }
-    
-    private func updateView(onFailure error: WeatherAppError) {
-        let message: String
-        switch error {
-        case .invalidParameterError:
-            message = "不適切な値が設定されました"
-        case .unknownError:
-            message = "予期せぬエラーが発生しました"
-        }
-        presentAlertController(message)
-    }
-    
     @objc func reload() {
-        switchView()
+        weatherView.switchView()
         weatherModel.fetch()
-    }
-    
-    private func switchView() {
-        weatherView.switchLoadingView()
-        weatherView.switchIndicatorAnimation()
-    }
-    
-    private func presentAlertController(_ message: String) {
-        let errorAlert = UIAlertController(title: "エラー", message: message, preferredStyle: .alert)
-        let errorAction = UIAlertAction(title: "OK", style: .default)
-        errorAlert.addAction(errorAction)
-        present(errorAlert, animated: true, completion: nil)
     }
 }
 
 // MARK:- WeatherViewDelegate
-
 extension WeatherViewController: WeatherViewDelegate {
     
     func didTapReloadButton(_ view: WeatherView) {
@@ -83,16 +61,16 @@ extension WeatherViewController: WeatherViewDelegate {
 extension WeatherViewController: FetchableDelegate {
     
     func fetch(_ fetcher: Fetchable?, didFetch information: WeatherInformation) {
-        DispatchQueue.main.async { [weak self] in
-            self?.updateView(onSuccess: information)
-            self?.switchView()
+        mainQueueScheduler.schedule {
+            self.weatherView.changeView(for: .init(information: information))
+            self.weatherView.switchView()
         }
     }
     
     func fetch(_ fetcher: Fetchable?, didFailWithError error: WeatherAppError) {
-        DispatchQueue.main.async { [weak self] in
-            self?.updateView(onFailure: error)
-            self?.switchView()
+        mainQueueScheduler.schedule {
+            self.errorHandler.handle(self, error)
+            self.weatherView.switchView()
         }
     }
 }
