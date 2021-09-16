@@ -12,11 +12,13 @@ class WeatherViewController: UIViewController {
     private let weatherView: WeatherView
     private let weatherModel: Fetchable
     private let errorHandler: ErrorHandler
+    private let mainQueueScheduler: MainQueueScheduler
     
-    init(view: WeatherView = .init(), model: Fetchable, errorHandler: ErrorHandler = .presentAlertViewController) {
+    init(view: WeatherView = .init(), model: Fetchable, errorHandler: ErrorHandler = .presentAlertViewController,queueScheduler: MainQueueScheduler = .live) {
         self.weatherView = view
         self.weatherModel = model
         self.errorHandler = errorHandler
+        self.mainQueueScheduler = queueScheduler
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -50,7 +52,7 @@ class WeatherViewController: UIViewController {
     @objc func reload() {
         weatherView.switchView()
         weatherModel.fetch { [weak self] result in
-            DispatchQueue.main.async {
+            self?.mainQueueScheduler.schedule {
                 self?.updateView(result)
                 self?.weatherView.switchView()
             }

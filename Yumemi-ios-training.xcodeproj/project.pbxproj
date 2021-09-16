@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D919B107263B9D320047898D /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D919B106263B9D320047898D /* WeatherView.swift */; };
+		D91B1BD326F3450500BCD284 /* QueueScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91B1BD226F3450500BCD284 /* QueueScheduler.swift */; };
 		D93DD7D5264B78A90068CA73 /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93DD7D4264B78A90068CA73 /* Fetcher.swift */; };
 		D943492B2672FFDE0023CFCA /* WeatherResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D943492A2672FFDE0023CFCA /* WeatherResponse.swift */; };
 		D9434939267334790023CFCA /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9434938267334790023CFCA /* InitialViewController.swift */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		D919B106263B9D320047898D /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
+		D91B1BD226F3450500BCD284 /* QueueScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueScheduler.swift; sourceTree = "<group>"; };
 		D93DD7D4264B78A90068CA73 /* Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetcher.swift; sourceTree = "<group>"; };
 		D943492A2672FFDE0023CFCA /* WeatherResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherResponse.swift; sourceTree = "<group>"; };
 		D9434938267334790023CFCA /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				D9B65FE1264E3208002E3578 /* WeatherViewState.swift */,
 				D9434938267334790023CFCA /* InitialViewController.swift */,
 				D94EA17F26EE2920003FE077 /* ErrorHandler.swift */,
+				D91B1BD226F3450500BCD284 /* QueueScheduler.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				D9B059A52660CB7700566FCA /* WeatherAppError.swift in Sources */,
 				D919B107263B9D320047898D /* WeatherView.swift in Sources */,
 				D9434939267334790023CFCA /* InitialViewController.swift in Sources */,
+				D91B1BD326F3450500BCD284 /* QueueScheduler.swift in Sources */,
 				D93DD7D5264B78A90068CA73 /* Fetcher.swift in Sources */,
 				D94EA1A426EF1F85003FE077 /* AccessibilityIdentifier.swift in Sources */,
 				D9B65FE2264E3208002E3578 /* WeatherViewState.swift in Sources */,
