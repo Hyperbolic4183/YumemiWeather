@@ -10,14 +10,12 @@ import UIKit
 class WeatherViewController: UIViewController {
 
     private let weatherView: WeatherView
-    private var weatherModel: Fetchable
-    private var mainQueueScheduler: MainQueueScheduler
-    private var errorHandler: ErrorHandler
+    private let weatherModel: Fetchable
+    private let errorHandler: ErrorHandler
     
-    init(view: WeatherView = .init(), model: Fetchable, queueScheduler: MainQueueScheduler = .live, errorHandler: ErrorHandler = .presentAlertViewController) {
+    init(view: WeatherView = .init(), model: Fetchable, errorHandler: ErrorHandler = .presentAlertViewController) {
         self.weatherView = view
         self.weatherModel = model
-        self.mainQueueScheduler = queueScheduler
         self.errorHandler = errorHandler
         super.init(nibName: nil, bundle: nil)
     }
