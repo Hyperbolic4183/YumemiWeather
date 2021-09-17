@@ -14,11 +14,11 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let weatherView = WeatherView()
         let fetcherMock = FetcherMock(result: .success(.init(weather: .sunny, minTemperature: "", maxTemperature: "")))
         let weatherViewController = WeatherViewController(view: weatherView,
-                                                          model: fetcherMock,
-                                                          queueScheduler: .immediate,
-                                                          errorHandler: .fulfillXCTestExpectation)
-        fetcherMock.delegate = weatherViewController
-        fetcherMock.fetch()
+                                      model: fetcherMock,
+                                      errorHandler: .fulfillXCTestExpectation,
+                                      queueScheduler: .immediate)
+        
+        weatherViewController.reload()
         let weatherImageView = weatherView.weatherImageView
         XCTAssertEqual(weatherImageView?.image,UIImage(named: "sunny"))
     }
@@ -27,11 +27,10 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let weatherView = WeatherView()
         let fetcherMock = FetcherMock(result: .success(.init(weather: .cloudy, minTemperature: "", maxTemperature: "")))
         let weatherViewController = WeatherViewController(view: weatherView,
-                                                          model: fetcherMock,
-                                                          queueScheduler: .immediate,
-                                                          errorHandler: .fulfillXCTestExpectation)
-        fetcherMock.delegate = weatherViewController
-        fetcherMock.fetch()
+                                      model: fetcherMock,
+                                      errorHandler: .fulfillXCTestExpectation,
+                                      queueScheduler: .immediate)
+        weatherViewController.reload()
         let weatherImageView = weatherView.weatherImageView
         XCTAssertEqual(weatherImageView?.image,UIImage(named: "cloudy"))
     }
@@ -40,11 +39,10 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let weatherView = WeatherView()
         let fetcherMock = FetcherMock(result: .success(.init(weather: .rainy, minTemperature: "", maxTemperature: "")))
         let weatherViewController = WeatherViewController(view: weatherView,
-                                                          model: fetcherMock,
-                                                          queueScheduler: .immediate,
-                                                          errorHandler: .fulfillXCTestExpectation)
-        fetcherMock.delegate = weatherViewController
-        fetcherMock.fetch()
+                                      model: fetcherMock,
+                                      errorHandler: .fulfillXCTestExpectation,
+                                      queueScheduler: .immediate)
+        weatherViewController.reload()
         let weatherImageView = weatherView.weatherImageView
         XCTAssertEqual(weatherImageView?.image,UIImage(named: "rainy"))
     }
@@ -54,13 +52,12 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let testMaxTemperature = "40"
         let fetcherMock = FetcherMock(result: .success(.init(weather: .sunny, minTemperature: "", maxTemperature: testMaxTemperature)))
         let weatherViewController = WeatherViewController(view: weatherView,
-                                                          model: fetcherMock,
-                                                          queueScheduler: .immediate,
-                                                          errorHandler: .fulfillXCTestExpectation)
-        fetcherMock.delegate = weatherViewController
-        fetcherMock.fetch()
-        let maxTemperature = weatherView.maxTemperatureLabel
-        XCTAssertEqual(testMaxTemperature, maxTemperature?.text)
+                                      model: fetcherMock,
+                                      errorHandler: .fulfillXCTestExpectation,
+                                      queueScheduler: .immediate)
+        weatherViewController.reload()
+        let maxTemperatureLabel = weatherView.maxTemperatureLabel
+        XCTAssertEqual(maxTemperatureLabel?.text,testMaxTemperature)
     }
 
     func test_最低気温がUILabelに反映される() {
@@ -68,21 +65,21 @@ class Yumemi_ios_trainingTests: XCTestCase {
         let testMinTemperature = "40"
         let fetcherMock = FetcherMock(result: .success(.init(weather: .sunny, minTemperature: testMinTemperature, maxTemperature: "")))
         let weatherViewController = WeatherViewController(view: weatherView,
-                                                          model: fetcherMock,
-                                                          queueScheduler: .immediate,
-                                                          errorHandler: .fulfillXCTestExpectation)
-        fetcherMock.delegate = weatherViewController
-        fetcherMock.fetch()
-        let minTemperature = weatherView.minTemperatureLabel
-        XCTAssertEqual(testMinTemperature, minTemperature?.text)
+                                      model: fetcherMock,
+                                      errorHandler: .fulfillXCTestExpectation,
+                                      queueScheduler: .immediate)
+        weatherViewController.reload()
+        let minTemperatureLabel = weatherView.minTemperatureLabel
+        XCTAssertEqual(minTemperatureLabel?.text,testMinTemperature)
     }
-    
+
     func test_天気予報がエラーだった時に処理が行われる() {
         let expectation = Expectation.fetchFailed
         let fetcherMock = FetcherMock(result: .failure(.invalidParameterError))
-        let weatherViewController = WeatherViewController(model: fetcherMock, queueScheduler: .immediate, errorHandler: .fulfillXCTestExpectation)
-        fetcherMock.delegate = weatherViewController
-        fetcherMock.fetch()
+        let weatherViewController = WeatherViewController(model: fetcherMock,
+                                                          errorHandler: .fulfillXCTestExpectation,
+                                                          queueScheduler: .immediate)
+        weatherViewController.reload()
         wait(for: [expectation], timeout: 2)
     }
     

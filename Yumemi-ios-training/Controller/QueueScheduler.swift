@@ -2,7 +2,7 @@
 //  QueueScheduler.swift
 //  Yumemi-ios-training
 //
-//  Created by 大塚 周 on 2021/09/10.
+//  Created by 大塚 周 on 2021/09/16.
 //
 
 import Dispatch
@@ -28,4 +28,3 @@ extension MainQueueScheduler {
         }
     )
 }
-

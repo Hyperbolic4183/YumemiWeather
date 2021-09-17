@@ -10,15 +10,15 @@ import UIKit
 class WeatherViewController: UIViewController {
 
     private let weatherView: WeatherView
-    private var weatherModel: Fetchable
-    private var mainQueueScheduler: MainQueueScheduler
-    private var errorHandler: ErrorHandler
+    private let weatherModel: Fetchable
+    private let errorHandler: ErrorHandler
+    private let mainQueueScheduler: MainQueueScheduler
     
-    init(view: WeatherView = .init(), model: Fetchable, queueScheduler: MainQueueScheduler = .live, errorHandler: ErrorHandler = .presentAlertViewController) {
+    init(view: WeatherView = .init(), model: Fetchable, errorHandler: ErrorHandler = .presentAlertViewController, queueScheduler: MainQueueScheduler = .live) {
         self.weatherView = view
         self.weatherModel = model
-        self.mainQueueScheduler = queueScheduler
         self.errorHandler = errorHandler
+        self.mainQueueScheduler = queueScheduler
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -36,12 +36,27 @@ class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         weatherView.delegate = self
-        weatherModel.delegate = self
     }
     
+    private func updateView(_ result: Result<WeatherInformation, WeatherAppError>) {
+        
+        switch result {
+        case .success(let information):
+            let weatherViewState = WeatherViewState(information: information)
+            weatherView.changeView(for: weatherViewState)
+        case .failure(let error):
+            errorHandler.handle(self,error)
+        }
+    }
+
     @objc func reload() {
         weatherView.switchView()
-        weatherModel.fetch()
+        weatherModel.fetch { [weak self] result in
+            self?.mainQueueScheduler.schedule {
+                self?.updateView(result)
+                self?.weatherView.switchView()
+            }
+        }
     }
 }
 
@@ -54,23 +69,5 @@ extension WeatherViewController: WeatherViewDelegate {
 
     func didTapCloseButton(_ view: WeatherView) {
         self.dismiss(animated: true, completion: nil)
-    }
-}
-
-// MARK:- FetcherDelegate
-extension WeatherViewController: FetchableDelegate {
-    
-    func fetch(_ fetcher: Fetchable?, didFetch information: WeatherInformation) {
-        mainQueueScheduler.schedule {
-            self.weatherView.changeView(for: .init(information: information))
-            self.weatherView.switchView()
-        }
-    }
-    
-    func fetch(_ fetcher: Fetchable?, didFailWithError error: WeatherAppError) {
-        mainQueueScheduler.schedule {
-            self.errorHandler.handle(self, error)
-            self.weatherView.switchView()
-        }
     }
 }
